@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,32 +9,24 @@ import { FormBuilder, Validators} from '@angular/forms';
 })
 export class LoginComponent {
 
-  showPassword = false;
-  loginForm: any;
-
-  roles = [
-    { label: 'Admin', value: 'admin' },
-    { label: 'Super Admin', value: 'super-admin' }
-  ];
+  loginForm: FormGroup;
+  hidePassword = false;
 
   constructor(private fb: FormBuilder) {
-    
-    // ✔ Initialize form here (constructor ke andar)
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      role: ['admin', Validators.required]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
-  togglePassword() {
-    this.showPassword = !this.showPassword;
+  public showHidePassword(): void {
+    this.hidePassword = !this.hidePassword;
   }
 
-  submit() {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
+  loginUser() {
+    if (this.loginForm.valid) {
+      console.log('Login Data:', this.loginForm.value);
     }
   }
+
 }

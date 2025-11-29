@@ -1,16 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-import { LoginModule } from './login/login.module';
 import { LayoutModule } from './layout/layout.module';
-import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import { NgUIModule } from './shared/ng-ui.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,23 +12,15 @@ import Aura from '@primeuix/themes/aura';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
-    RouterModule,
-    RouterOutlet,
     LayoutModule,
-    FormsModule,
+    NgUIModule
   ],
-  bootstrap: [AppComponent],
-  providers: [
-    provideAnimationsAsync(),
-    providePrimeNG({
-      theme: {
-        preset: Aura,
-        options: {
-          darkModeSelector: false || 'none'
-        }
-      }
-    })
-  ]
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    console.log('Anguler UI Module is Live....');
+  }
+}

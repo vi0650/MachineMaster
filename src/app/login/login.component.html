@@ -1,82 +1,42 @@
-<!-- <div class="login-container">
-  <div class="login-card">
+<div class="login-layout">
+    <div class="login-container">
+        <mat-card class="login-card">
 
-    <h2>Login</h2>
+            <mat-card-header class="card-header">
+                <mat-card-title class="card-title">Login</mat-card-title>
+                <mat-card-subtitle class="card-subtitle">Welcome! Please sign in.</mat-card-subtitle>
+            </mat-card-header>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <mat-card-content>
+                <form [formGroup]="loginForm">
 
-      
-      <div class="field">
-        <label>Email</label>
-        <input
-          pInputText
-          formControlName="email"
-          type="email"
-          placeholder="Enter email"
-        />
-        <small class="error" *ngIf="isInvalid('email')">
-          Valid email required
-        </small>
-      </div>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Username</mat-label>
+                        <input matInput formControlName="username" placeholder="Enter username" />
+                    </mat-form-field>
 
-      <div class="field password-field">
-        <label>Password</label>
-        <div class="password-wrapper">
-          <input
-            pInputText
-            [type]="showPassword ? 'text' : 'password'"
-            formControlName="password"
-            placeholder="Enter password"
-          />
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Password</mat-label>
+                        <input matInput [type]="hidePassword ? 'text' : 'password'" matInput placeholder="password"
+                            formControlName="password" type="password" />
 
-          <i
-            class="pi"
-            [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'"
-            (click)="togglePassword()"
-          ></i>
-        </div>
+                        <mat-icon class="bottom" matIconSuffix (click)="showHidePassword()">
+                            {{ hidePassword ? "visibility_off" : "visibility" }}
+                        </mat-icon>
+                    </mat-form-field>
 
-        <small class="error" *ngIf="isInvalid('password')">
-          Minimum 6 characters
-        </small>
-      </div>
+                    <div class="button-wrapper">
+                        <button mat-flat-button extended color="primary" class="login-btn">
+                            <mat-icon>login</mat-icon>
+                            Login
+                        </button>
+                    </div>
 
-      <button
-        pButton
-        type="submit"
-        label="Login"
-        class="login-btn"
-        [disabled]="loginForm.invalid"
-      >login</button>
-    </form>
-  </div>
-</div> -->
+                </form>
+            </mat-card-content>
+
+        </mat-card>
+    </div>
 
 
-<div class="login-container">
-  <p-card header="Sign in" styleClass="login-card">
-    <form [formGroup]="loginForm" (ngSubmit)="submit()">
-      <div class="field">
-        <label>Email</label>
-        <input pInputText formControlName="email" type="email" />
-      </div>
-
-      <div class="field password-field">
-        <label>Password</label>
-        <div class="pw-wrap">
-          <input pInputText [type]="showPassword ? 'text' : 'password'" formControlName="password" />
-          <i class="pi" [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'" (click)="togglePassword()"></i>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Role</label>
-        <p-dropdown formControlName="role" optionLabel="label"></p-dropdown>
-      </div>
-
-      <div class="actions">
-        <button pButton type="submit" label="Login" class="w-full"></button>
-      </div>
-    </form>
-  </p-card>
 </div>
