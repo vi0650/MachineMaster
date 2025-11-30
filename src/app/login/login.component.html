@@ -2,17 +2,18 @@
     <div class="login-container">
         <mat-card class="login-card">
 
+
             <mat-card-header class="card-header">
                 <mat-card-title class="card-title">Login</mat-card-title>
                 <mat-card-subtitle class="card-subtitle">Welcome! Please sign in.</mat-card-subtitle>
             </mat-card-header>
 
             <mat-card-content>
-                <form [formGroup]="loginForm">
+                <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
 
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label>Username</mat-label>
-                        <input matInput formControlName="username" placeholder="Enter username" />
+                        <input matInput formControlName="userName" placeholder="Enter username" />
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="full-width">
@@ -26,12 +27,14 @@
                     </mat-form-field>
 
                     <div class="button-wrapper">
-                        <button mat-flat-button extended color="primary" class="login-btn">
+                        <button mat-flat-button extended color="primary" type="submit" class="login-btn">
                             <mat-icon>login</mat-icon>
                             Login
                         </button>
                     </div>
-
+                    <mat-card-footer>
+                        <p style="font-size: 12px;">© 2025 My App</p>
+                    </mat-card-footer>
                 </form>
             </mat-card-content>
 

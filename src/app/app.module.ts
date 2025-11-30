@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from './layout/layout.module';
 import { NgUIModule } from './shared/ng-ui.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LayoutModule,
     NgUIModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [
+    provideHotToastConfig()
+  ]
 })
 export class AppModule {
   constructor() {

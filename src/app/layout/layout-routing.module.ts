@@ -4,11 +4,13 @@ import { LayoutComponent } from './layout.component';
 import { CustomerComponent } from './customer/customer.component';
 import { MachineComponent } from './machine/machine.component';
 import { ProductsComponent } from './products/products.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'layout',
+    path: '',
     component: LayoutComponent,
+    canActivate:[AuthGuard],
     children: [
       { path: 'customer', component: CustomerComponent },
       { path: 'machine', component: MachineComponent },

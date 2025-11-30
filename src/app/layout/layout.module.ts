@@ -6,6 +6,7 @@ import { LayoutComponent } from './layout.component';
 import { CustomerComponent } from './customer/customer.component';
 import { ProductsComponent } from './products/products.component';
 import { MachineComponent } from './machine/machine.component';
+import { NgUIModule } from '../shared/ng-ui.module';
 
 
 @NgModule({
@@ -13,11 +14,12 @@ import { MachineComponent } from './machine/machine.component';
     LayoutComponent,
     CustomerComponent,
     ProductsComponent,
-    MachineComponent
+    MachineComponent,
   ],
   imports: [
     CommonModule,
-    LayoutRoutingModule
+    LayoutRoutingModule,
+    NgUIModule
   ]
 })
 export class LayoutModule { }

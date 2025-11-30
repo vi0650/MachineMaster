@@ -1,1 +1,19 @@
-<p>customer works!</p>
+<mat-card class="page-card mat-elevation-z3">
+    <h2>Customer works!</h2>
+
+    <!-- grid form example -->
+    <div class="grid-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="openDialog()">Open Dialog</button>
+    </div>
+
+</mat-card>

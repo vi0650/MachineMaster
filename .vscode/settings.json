@@ -3,9 +3,12 @@
         "Anguler",
         "floatlabel",
         "inputtext",
+        "ngneat",
+        "ngxpert",
         "primeicons",
         "primeng",
         "primeuix",
-        "radiobutton"
+        "radiobutton",
+        "snav"
     ]
 }
