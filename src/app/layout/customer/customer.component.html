@@ -4,20 +4,21 @@
     <form [formGroup]="customerForm" class="form-grid">
 
         <!-- Customer Name -->
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>Customer Name</mat-label>
-            <input matInput formControlName="customerName">
-            <mat-error *ngIf="customerForm.get('customerName')?.hasError('required') && customerForm.get('customerName')?.touched">
+            <input matInput placeholder="Enter full name" formControlName="customerName">
+            <mat-error
+                *ngIf="customerForm.get('customerName')?.hasError('required') && customerForm.get('customerName')?.touched">
                 Enter Your Name
             </mat-error>
         </mat-form-field>
 
         <!-- Email -->
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email" [email]="true">
+            <input matInput placeholder="Customer@gmail.com" formControlName="email" [email]="true">
             <mat-error *ngIf="customerForm.get('email')?.hasError('required') && customerForm.get('email')?.touched">
-                Email is required.
+                Email is <strong>required</strong>.
             </mat-error>
             <mat-error *ngIf="customerForm.get('email')?.hasError('email')">
                 Please enter a valid email address.
@@ -25,12 +26,12 @@
         </mat-form-field>
 
         <!-- Mobile -->
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>Mobile Number</mat-label>
-            <input matInput maxlength="10" formControlName="mobileNo">
+            <input placeholder="Enter 10-digit mobile number" matInput maxlength="10" formControlName="mobileNo">
             <mat-error
                 *ngIf="customerForm.get('mobileNo')?.hasError('required') && customerForm.get('mobileNo')?.touched">
-                Enter valid mobile number
+                Mobile number is <strong>required</strong>
             </mat-error>
             <mat-error
                 *ngIf="customerForm.get('mobileNo')?.hasError('pattern') && customerForm.get('mobileNo')?.touched">
@@ -39,37 +40,37 @@
         </mat-form-field>
 
         <!-- City -->
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>City</mat-label>
-            <mat-select formControlName="city">
+            <mat-select placeholder="Select city" formControlName="city">
                 <mat-option [value]="null">None</mat-option>
                 <mat-option class="mat-option" *ngFor="let city of cities" [value]="city">{{city}}</mat-option>
             </mat-select>
         </mat-form-field>
 
         <!-- Address full width -->
-        <mat-form-field appearance="outline" class="full-width">
+        <mat-form-field class="full-width">
             <mat-label>Address</mat-label>
-            <textarea matInput rows="2" formControlName="address"></textarea>
+            <textarea placeholder="abc street, landmark" matInput rows="2" formControlName="address"></textarea>
         </mat-form-field>
 
         <!-- State -->
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>State</mat-label>
-            <mat-select formControlName="state">
+            <mat-select placeholder="select state" formControlName="state">
                 <mat-option [value]="null">None</mat-option>
                 <mat-option class="mat-option" *ngFor="let state of states" [value]="state">{{state}}</mat-option>
             </mat-select>
         </mat-form-field>
 
         <!-- GSTIN -->
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>GSTIN</mat-label>
-            <input matInput formControlName="gstIn">
+            <input placeholder="Enter 15-digit GSTIN" matInput formControlName="gstIn">
         </mat-form-field>
 
         <!-- Active -->
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>Is Active?</mat-label>
             <mat-select formControlName="isActive">
                 <mat-option [value]="true">Active</mat-option>
@@ -78,26 +79,25 @@
         </mat-form-field>
 
         <!-- Created Date -->
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>Created Date</mat-label>
-            <input matInput [matDatepicker]="cd" formControlName="createdDate">
+            <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="cd" formControlName="createdDate">
             <mat-datepicker-toggle matSuffix [for]="cd"></mat-datepicker-toggle>
-            <mat-datepicker #cd></mat-datepicker>
+            <mat-datepicker touchUi #cd></mat-datepicker>
         </mat-form-field>
 
         <!-- Updated Date -->
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>Updated Date</mat-label>
-            <input matInput [matDatepicker]="ud" formControlName="updatedDate">
+            <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="ud" formControlName="updatedDate">
             <mat-datepicker-toggle matSuffix [for]="ud"></mat-datepicker-toggle>
-            <mat-datepicker #ud></mat-datepicker>
+            <mat-datepicker touchUi #ud></mat-datepicker>
         </mat-form-field>
 
     </form>
 
     <div class="btn-row">
-        <button mat-flat-button color="primary" (click)="saveForm()" [disabled]="customerForm.invalid">Save</button>
-        <button mat-stroked-button color="warn">Cancel</button>
+        <button mat-flat-button  (click)="saveForm()" [disabled]="customerForm.invalid">Save</button>
     </div>
 
 </mat-card>

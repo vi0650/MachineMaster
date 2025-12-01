@@ -103,10 +103,10 @@ mat-expansion-panel-header mat-icon {
 }
 
 /* ACTIVE ROUTE LINK */
-mat-list-item.active-link {
+mat-list.active-link {
   background: #e3eaff;
   color: #2962ff;
-  border-radius: 10px !important;
+  border-radius: 10px;
   font-weight: 600;
 }
 

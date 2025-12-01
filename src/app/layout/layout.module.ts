@@ -26,7 +26,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     FormsModule,
     ReactiveFormsModule,
     LayoutRoutingModule,
-    NgUIModule,
+    NgUIModule
 ]
 })
 export class LayoutModule { }

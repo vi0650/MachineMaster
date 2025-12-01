@@ -4,60 +4,24 @@
     <form [formGroup]="machineForm" class="form-grid">
 
         <!-- Customer Name -->
-        <mat-form-field >
+        <mat-form-field>
             <mat-label>Machine Name</mat-label>
             <input matInput formControlName="machineName">
-            <mat-error *ngIf="machineForm.get('machineName')?.hasError('required') && machineForm.get('machineName')?.touched">
+            <mat-error
+                *ngIf="machineForm.get('machineName')?.hasError('required') && machineForm.get('machineName')?.touched">
                 Enter Machine Name
             </mat-error>
         </mat-form-field>
 
-        <!-- Mobile -->
-        <mat-form-field >
-            <mat-label>Mobile Number</mat-label>
-            <input matInput maxlength="10" formControlName="mobileNo">
-            <mat-error
-                *ngIf="machineForm.get('mobileNo')?.hasError('required') && machineForm.get('mobileNo')?.touched">
-                Enter valid mobile number
-            </mat-error>
-            <mat-error
-                *ngIf="machineForm.get('mobileNo')?.hasError('pattern') && machineForm.get('mobileNo')?.touched">
-                Enter valid 10-digit mobile number
-            </mat-error>
-        </mat-form-field>
-
-        <!-- City -->
-        <mat-form-field >
-            <mat-label>City</mat-label>
-            <mat-select formControlName="city">
+        <mat-form-field>
+            <mat-label>Product Id</mat-label>
+            <mat-select formControlName="productId">
                 <mat-option [value]="null">None</mat-option>
-                <mat-option class="mat-option" *ngFor="let city of cities" [value]="city">{{city}}</mat-option>
+                <mat-option class="mat-option" *ngFor="let Id of pId" [value]="Id">{{Id}}</mat-option>
             </mat-select>
         </mat-form-field>
 
-        <!-- Address full width -->
-        <mat-form-field  class="full-width">
-            <mat-label>Address</mat-label>
-            <textarea matInput rows="2" formControlName="address"></textarea>
-        </mat-form-field>
-
-        <!-- State -->
-        <mat-form-field >
-            <mat-label>State</mat-label>
-            <mat-select formControlName="state">
-                <mat-option [value]="null">None</mat-option>
-                <mat-option class="mat-option" *ngFor="let state of states" [value]="state">{{state}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <!-- GSTIN -->
-        <mat-form-field >
-            <mat-label>GSTIN</mat-label>
-            <input matInput formControlName="gstIn">
-        </mat-form-field>
-
-        <!-- Active -->
-        <mat-form-field >
+        <mat-form-field>
             <mat-label>Is Active?</mat-label>
             <mat-select formControlName="isActive">
                 <mat-option [value]="true">Active</mat-option>
@@ -65,8 +29,13 @@
             </mat-select>
         </mat-form-field>
 
+        <mat-form-field class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="2" formControlName="description"></textarea>
+        </mat-form-field>
+
         <!-- Created Date -->
-        <mat-form-field >
+        <mat-form-field>
             <mat-label>Created Date</mat-label>
             <input matInput [matDatepicker]="cd" formControlName="createdDate">
             <mat-datepicker-toggle matSuffix [for]="cd"></mat-datepicker-toggle>
@@ -85,7 +54,6 @@
 
     <div class="btn-row">
         <button mat-flat-button color="primary" (click)="saveForm()" [disabled]="machineForm.invalid">Save</button>
-        <button mat-stroked-button color="warn">Cancel</button>
     </div>
 
 </mat-card>

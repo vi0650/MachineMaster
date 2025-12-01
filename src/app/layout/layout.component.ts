@@ -1,5 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LayoutComponent {
 
-  constructor(private router: Router,private dialog:MatDialog) {
+  constructor(private router: Router, private dialog: MatDialog) {
     console.log('layout module load');
 
     const media = inject(MediaMatcher);
@@ -22,6 +22,8 @@ export class LayoutComponent {
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
   }
 
+
+
   protected readonly isMobile = signal(true);
   private readonly _mobileQuery: MediaQueryList;
   private readonly _mobileQueryListener: () => void;
@@ -30,15 +32,18 @@ export class LayoutComponent {
     this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
 
-  isSidebarOpen = false;
+  isSidebarOpen = true;
 
   logout() {
     localStorage.removeItem('loggedUser');
     this.router.navigate(['/login'], { replaceUrl: true });
   }
 
-  toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
+  @ViewChild('snav') snav: any;
+  closeSidebar() {
+    if (this.isMobile()) {
+      this.snav.close();
+    }
   }
 
 }

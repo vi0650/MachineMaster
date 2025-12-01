@@ -2,9 +2,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgUIModule } from '../../shared/ng-ui.module';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Customer } from '../../core/models/customer';
-import { CITIES } from '../../core/data/city';
-import { STATES } from '../../core/data/state';
+import { Machine } from '../../core/models/machine';
+import { pId } from '../../core/data/productId';
 import { v4 as uuidv4 } from 'uuid';
 import { HotToastService } from '@ngxpert/hot-toast';
 
@@ -21,25 +20,21 @@ export class MachineComponent {
   constructor(private fb: FormBuilder, private toast: HotToastService) {
     this.machineForm = this.fb.group({
       machineName: ['', Validators.required],
-      mobileNo: ['', [Validators.required, Validators.pattern("^[0-9]{10}$")]],
-      address: [''],
-      city: [''],
-      state: [''],
-      gstIn: [''],
+      productId: ['', [Validators.required, Validators.pattern("^[0-9]{6}$")]],
+      description: [''],
       isActive: [true],
       createdDate: [new Date()],
       updatedDate: [new Date()],
     });
   }
 
-  customers: Customer[] = [];
-  cities = CITIES;
-  states = STATES;
-  newCustomer = { customerName: '', }
+  machine: Machine[] = [];
+  pId = pId;
+  newCustomer = { machineName: '', }
 
   readonly dialog = inject(MatDialog);
 
-  generatedCustId(existingId: number[]): number {
+  generatedMachId(existingId: number[]): number {
     let id: number;
     do {
       const uuid = uuidv4();
@@ -50,7 +45,7 @@ export class MachineComponent {
   }
 
   saveForm() {
-    const grahak: Customer = this.machineForm.value as Customer;
+    const machine: Machine = this.machineForm.value as Machine;
 
     if (!this.machineForm.valid) {
       this.toast.error('fill the all fields')
@@ -58,8 +53,8 @@ export class MachineComponent {
     };
 
     if (this.machineForm.valid) {
-      const newCustomer = { customerId: this.generatedCustId([]), ...grahak }
-      console.log(newCustomer);
+      const newMachine = { machineId: this.generatedMachId([]), ...machine }
+      console.log(newMachine);
       this.toast.success('Successfully saved!!')
     }
     this.machineForm.reset();
