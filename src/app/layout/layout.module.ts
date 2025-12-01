@@ -7,6 +7,9 @@ import { CustomerComponent } from './customer/customer.component';
 import { ProductsComponent } from './products/products.component';
 import { MachineComponent } from './machine/machine.component';
 import { NgUIModule } from '../shared/ng-ui.module';
+import { MachineStatusInfoComponent } from './machine-status-info/machine-status-info.component';
+import { UsersComponent } from './users/users.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -15,11 +18,15 @@ import { NgUIModule } from '../shared/ng-ui.module';
     CustomerComponent,
     ProductsComponent,
     MachineComponent,
+    MachineStatusInfoComponent,
+    UsersComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     LayoutRoutingModule,
-    NgUIModule
-  ]
+    NgUIModule,
+]
 })
 export class LayoutModule { }

@@ -11,13 +11,16 @@ import { MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger } from '@angular/ma
 import { MatDrawer, MatDrawerContainer, MatDrawerContent, MatSidenav, MatSidenavContainer, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { MatDivider, MatList, MatListItem, MatListModule, MatNavList } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSelectModule } from '@angular/material/select';
+import { MatOption, MatSelect, MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterOutlet } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatAccordion, MatExpansionModule, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
+import { MatGridList, MatGridListModule, MatGridTile } from '@angular/material/grid-list';
+import { MatDatepicker, MatDatepickerInput, MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @NgModule({
   declarations: [],
@@ -40,10 +43,13 @@ import { MatAccordion, MatExpansionModule, MatExpansionPanel, MatExpansionPanelH
     MatCheckboxModule,
     MatDividerModule,
     MatAccordion,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatSelectModule,
+    MatDatepickerModule
   ],
   exports: [
-    
     MatIcon,
     MatFormField,
     MatButton,
@@ -79,7 +85,20 @@ import { MatAccordion, MatExpansionModule, MatExpansionPanel, MatExpansionPanelH
     MatExpansionPanelHeader,
     MatExpansionPanelTitle,
     MatList,
-    MatListItem
-  ]
+    MatListItem,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle,
+    MatGridList,
+    MatGridTile,
+    MatSelect,
+    MatOption,
+    MatDatepicker,
+    MatDatepickerInput,
+    MatDatepickerToggle
+  ],
+  providers:[provideNativeDateAdapter()]
 })
+
 export class NgUIModule { }

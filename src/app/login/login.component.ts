@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User, UserRole } from '../models/user';
+import { User, UserRole } from '../core/models/user';
 import { Router } from '@angular/router';
 
 @Component({
@@ -56,7 +56,6 @@ export class LoginComponent {
 
     const storedUsers = localStorage.getItem("users");
     if (!storedUsers) {
-      
       return;
     }
 

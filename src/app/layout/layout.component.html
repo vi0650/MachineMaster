@@ -1,10 +1,10 @@
 <div class="app-container">
     <!-- TOP NAVBAR -->
-    <mat-toolbar class="top-navbar mat-elevation-z4">
+    <mat-toolbar class="top-navbar mat-elevation-z19">
         <button mat-icon-button (click)="snav.toggle()">
             <mat-icon>menu</mat-icon>
         </button>
-        <span class="title">Responsive App</span>
+        <span class="title">Dashboard</span>
         <span class="spacer"></span>
         <!-- User Menu -->
         <button mat-icon-button [matMenuTriggerFor]="userMenu">
@@ -23,16 +23,18 @@
     </mat-toolbar>
 
     <!-- SIDENAV + CONTENT -->
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="isMobile() ? 0 : 0">
+    <mat-sidenav-container class="sidenav-container mat-elevation-z18" [style.marginTop.px]="isMobile() ? 0 : 0">
         <!-- SIDEBAR -->
         <mat-sidenav #snav [mode]="isMobile() ? 'over' : 'side'" [fixedInViewport]="isMobile()" fixedTopGap="56" opened
             class="sidebar mat-elevation-z2">
             <div class="sidebar-header">
-                <img src="assets/user.png" class="avatar">
+                <!-- <img src="assets/user.png" class="avatar"> -->
                 <h3>Test</h3>
                 <p>Admin</p>
             </div>
             <mat-divider></mat-divider>
+
+<!--/ 1 -->
             <!-- EXPANSION MENU -->
             <mat-accordion multi class="menu-accordion">
                 <mat-expansion-panel>
@@ -41,31 +43,65 @@
                             <mat-icon>dashboard</mat-icon> Dashboard
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <a mat-list-item routerLink="/layout/home" routerLinkActive="active-link">Home</a>
+                    <a mat-list-item routerLink="/customer" routerLinkActive="active-link">Home</a>
                     <a mat-list-item routerLink="/layout/stats" routerLinkActive="active-link">Statistics</a>
                 </mat-expansion-panel>
+
+<!--/ 2 -->
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <mat-icon>groups</mat-icon> Users
+                            <mat-icon>badge</mat-icon>Customers
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLink="/customer" routerLinkActive="active-link">Customer list</a>
+                    <a mat-list-item routerLink="/customer" routerLinkActive="active-link">Add Customer</a>
+                </mat-expansion-panel>
+
+<!--/ 3 -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>storage</mat-icon>Machine
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <mat-list role="list">
-                        <mat-list-item role="listitem" routerLinkActive="active-link">Item 1</mat-list-item>
-                        <mat-list-item role="listitem" routerLinkActive="active-link">Item 2</mat-list-item>
-                        <mat-list-item role="listitem" routerLinkActive="active-link">Item 3</mat-list-item>
+                        <a mat-list-item routerLink="/machine" routerLinkActive="active-link">Machine</a>
                     </mat-list>
                 </mat-expansion-panel>
-
+<!--/ 4 -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>sensors</mat-icon>Machine Status
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <a mat-list-item routerLink="/machine" routerLinkActive="active-link">Machine</a>
+                    </mat-list>
+                </mat-expansion-panel>
+<!--/ 5 -->
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <mat-icon>inventory</mat-icon> Products
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <a mat-list-item routerLink="/layout/list">Product List</a>
-                    <a mat-list-item routerLink="/layout/add">Add Product</a>
+                    <a mat-list-item routerLink="/products" routerLinkActive="active-link">Product List</a>
+                    <a mat-list-item routerLink="/add" routerLinkActive="active-link">Add Product</a>
                 </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>supervisor_account</mat-icon> Users
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <a mat-list-item routerLink="/user" routerLinkActive="active-link">Machine</a>
+                    </mat-list>
+                </mat-expansion-panel>
+
             </mat-accordion>
         </mat-sidenav>
 

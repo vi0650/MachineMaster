@@ -2,7 +2,6 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MachineComponent } from './machine/machine.component';
 
 @Component({
   selector: 'app-layout',
@@ -41,7 +40,5 @@ export class LayoutComponent {
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
-
-
 
 }

@@ -1,19 +1,103 @@
-<mat-card class="page-card mat-elevation-z3">
-    <h2>Customer works!</h2>
+<mat-card class="page-card mat-elevation-z4">
+    <h2 class="title">Customer Form</h2>
 
-    <!-- grid form example -->
-    <div class="grid-container">
+    <form [formGroup]="customerForm" class="form-grid">
+
+        <!-- Customer Name -->
         <mat-form-field appearance="outline">
-            <mat-label>Name</mat-label>
-            <input matInput>
+            <mat-label>Customer Name</mat-label>
+            <input matInput formControlName="customerName">
+            <mat-error *ngIf="customerForm.get('customerName')?.hasError('required') && customerForm.get('customerName')?.touched">
+                Enter Your Name
+            </mat-error>
         </mat-form-field>
 
+        <!-- Email -->
         <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
-            <input matInput>
+            <input matInput formControlName="email" [email]="true">
+            <mat-error *ngIf="customerForm.get('email')?.hasError('required') && customerForm.get('email')?.touched">
+                Email is required.
+            </mat-error>
+            <mat-error *ngIf="customerForm.get('email')?.hasError('email')">
+                Please enter a valid email address.
+            </mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" (click)="openDialog()">Open Dialog</button>
+        <!-- Mobile -->
+        <mat-form-field appearance="outline">
+            <mat-label>Mobile Number</mat-label>
+            <input matInput maxlength="10" formControlName="mobileNo">
+            <mat-error
+                *ngIf="customerForm.get('mobileNo')?.hasError('required') && customerForm.get('mobileNo')?.touched">
+                Enter valid mobile number
+            </mat-error>
+            <mat-error
+                *ngIf="customerForm.get('mobileNo')?.hasError('pattern') && customerForm.get('mobileNo')?.touched">
+                Enter valid 10-digit mobile number
+            </mat-error>
+        </mat-form-field>
+
+        <!-- City -->
+        <mat-form-field appearance="outline">
+            <mat-label>City</mat-label>
+            <mat-select formControlName="city">
+                <mat-option [value]="null">None</mat-option>
+                <mat-option class="mat-option" *ngFor="let city of cities" [value]="city">{{city}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Address full width -->
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Address</mat-label>
+            <textarea matInput rows="2" formControlName="address"></textarea>
+        </mat-form-field>
+
+        <!-- State -->
+        <mat-form-field appearance="outline">
+            <mat-label>State</mat-label>
+            <mat-select formControlName="state">
+                <mat-option [value]="null">None</mat-option>
+                <mat-option class="mat-option" *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- GSTIN -->
+        <mat-form-field appearance="outline">
+            <mat-label>GSTIN</mat-label>
+            <input matInput formControlName="gstIn">
+        </mat-form-field>
+
+        <!-- Active -->
+        <mat-form-field appearance="outline">
+            <mat-label>Is Active?</mat-label>
+            <mat-select formControlName="isActive">
+                <mat-option [value]="true">Active</mat-option>
+                <mat-option [value]="false">Inactive</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Created Date -->
+        <mat-form-field appearance="outline">
+            <mat-label>Created Date</mat-label>
+            <input matInput [matDatepicker]="cd" formControlName="createdDate">
+            <mat-datepicker-toggle matSuffix [for]="cd"></mat-datepicker-toggle>
+            <mat-datepicker #cd></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Updated Date -->
+        <mat-form-field appearance="outline">
+            <mat-label>Updated Date</mat-label>
+            <input matInput [matDatepicker]="ud" formControlName="updatedDate">
+            <mat-datepicker-toggle matSuffix [for]="ud"></mat-datepicker-toggle>
+            <mat-datepicker #ud></mat-datepicker>
+        </mat-form-field>
+
+    </form>
+
+    <div class="btn-row">
+        <button mat-flat-button color="primary" (click)="saveForm()" [disabled]="customerForm.invalid">Save</button>
+        <button mat-stroked-button color="warn">Cancel</button>
     </div>
 
 </mat-card>

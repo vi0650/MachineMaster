@@ -1,19 +1,63 @@
-/* CARD */
 .page-card {
-  background: #ffffff;
-  padding: 20px 30px;
+  max-width: 900px;
+  margin: auto;
+  padding: 25px 30px;
   border-radius: 12px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
-  margin-bottom: 2rem;
 }
 
-/* GRID FORM */
-.grid-container {
+.title {
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+/* Responsive Grid */
+.form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
+/* Full width field (address) */
+.full-width {
+  grid-column: 1 / -1;
+}
+
 mat-form-field {
   width: 100%;
+  min-width: 200px;
+}
+
+.mat-option::-webkit-scrollbar {
+  width: 10px;
+}
+
+.mat-option::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mat-option::-webkit-scrollbar-thumb {
+  background: #b6c4ec;
+  border-radius: 1px;
+}
+
+.mat-option::-webkit-scrollbar-thumb:hover {
+  background: #8ea4d9;
+}
+
+/* Mobile view → 1 column */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-card {
+    padding: 20px;
+  }
+}
+
+.btn-row {
+  margin-top: 25px;
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
 }
