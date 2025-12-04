@@ -1,0 +1,120 @@
+<div class="app-container">
+    <!-- TOP NAVBAR -->
+    <mat-toolbar class="top-navbar mat-elevation-z19">
+        <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span class="title">Dashboard</span>
+        <span class="spacer"></span>
+        <!-- User Menu -->
+        <button mat-icon-button [matMenuTriggerFor]="userMenu">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item>
+                <mat-icon>settings</mat-icon>
+                Settings
+            </button>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                Logout
+            </button>
+        </mat-menu>
+    </mat-toolbar>
+
+    <!-- SIDENAV + CONTENT -->
+    <mat-sidenav-container class="sidenav-container mat-elevation-z18" [style.marginTop.px]="isMobile() ? 0 : 0">
+        <!-- SIDEBAR -->
+        <mat-sidenav #snav class="sidebar mat-elevation-z2" [class.collapsed]="!isMobile() && isSidebarOpen"
+            [mode]="isMobile() ? 'over' : 'side'" [opened]="!isMobile()" [fixedInViewport]="isMobile()" fixedTopGap="56"
+            class="sidebar mat-elevation-z2">
+            <div class="sidebar-header">
+                <!-- <img src="assets/user.png" class="avatar"> -->
+                <h3>Test</h3>
+                <p>Admin</p>
+            </div>
+            <mat-divider></mat-divider>
+
+            <!--/ 1 -->
+            <!-- EXPANSION MENU -->
+            <mat-accordion multi class="menu-accordion">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>dashboard</mat-icon> Dashboard
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/customer"
+                        routerLinkActive="active-link">Home</a>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/layout/stats"
+                        routerLinkActive="active-link">Statistics</a>
+                </mat-expansion-panel>
+
+                <!--/ 2 -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>badge</mat-icon>Customers
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/customer" routerLinkActive="active-link">Add
+                        Customer</a>
+                </mat-expansion-panel>
+
+                <!--/ 3 -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>storage</mat-icon>Machine
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <a mat-list-item (click)="closeSidebar()" routerLink="/machine"
+                            routerLinkActive="active-link">Add Machine</a>
+                    </mat-list>
+                </mat-expansion-panel>
+                <!--/ 4 -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>sensors</mat-icon>Machine Status
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <a mat-list-item (click)="closeSidebar()" routerLink="/machine_status_info"
+                            routerLinkActive="active-link">Add Machine
+                            Status</a>
+                    </mat-list>
+                </mat-expansion-panel>
+                <!--/ 5 -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>inventory</mat-icon> Products
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/products" routerLinkActive="active-link">Add
+                        Product</a>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>supervisor_account</mat-icon> Users
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <a mat-list-item (click)="closeSidebar()" routerLink="/users" routerLinkActive="active-link">Add
+                            user</a>
+                    </mat-list>
+                </mat-expansion-panel>
+
+            </mat-accordion>
+        </mat-sidenav>
+
+        <!-- MAIN CONTENT (SCROLLABLE) -->
+        <mat-sidenav-content class="content-area">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
