@@ -96,7 +96,7 @@ export class LoginComponent {
           if (err.status === 0) return "Server offline!";
           if (err.status === 401) return "Invalid credentials!";
           return "Something went wrong!";
-        }
+        },
       })
     ).subscribe({
         next: (res: any) => {
