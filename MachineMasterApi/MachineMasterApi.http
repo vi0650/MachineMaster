@@ -1,0 +1,6 @@
+@MachineMasterApi_HostAddress = http://localhost:5247
+
+GET {{MachineMasterApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
