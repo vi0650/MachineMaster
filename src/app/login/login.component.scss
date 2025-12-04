@@ -37,25 +37,44 @@
         font-weight: 100;
       }
     }
-  }
 
-  .full-width {
-    width: 100%;
-    margin-bottom: 15px;
-  }
+    .full-width {
+      width: 100%;
+      margin-bottom: 15px;
+    }
 
-  .button-wrapper {
-    display: flex;
-    justify-content: center;
+    .button-wrapper {
+      display: flex;
+      justify-content: center;
 
-    .login-btn {
-      align-self: center;
-      padding: 0;
-      margin: 0;
-      border-radius: 0.7rem;
-      font-size: 1.1rem;
-      width: 15rem;
-      text-transform: uppercase;
+      .login-btn {
+        align-self: center;
+        padding: 0;
+        margin: 0;
+        border-radius: 0.7rem;
+        font-size: 1.1rem;
+        width: 15rem;
+        text-transform: uppercase;
+      }
+    }
+
+    mat-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0 0 0;
+      font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+      letter-spacing: 0.2px;
+      
+      p {
+        font-size: 0.9rem;
+
+        .register {
+          text-decoration: underline;
+          color: royalblue;
+          font-weight: 600;
+        }
+      }
     }
   }
 }

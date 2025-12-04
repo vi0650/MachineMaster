@@ -47,7 +47,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     MatDialogModule,
     MatGridListModule,
     MatSelectModule,
-    MatDatepickerModule
+    MatDatepickerModule,
   ],
   exports: [
     MatIcon,

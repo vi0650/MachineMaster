@@ -17,6 +17,6 @@ import { NgUIModule } from '../shared/ng-ui.module';
     LoginRoutingModule,
     NgUIModule,
 ],
-  exports:[LoginComponent]
+  exports:[LoginComponent],
 })
 export class LoginModule { }

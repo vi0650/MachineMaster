@@ -61,7 +61,7 @@ export class CustomerComponent {
     if (this.customerForm.valid) {
       const newCustomer = { customerId: this.generatedCustId([]), ...grahak }
       console.log(newCustomer);
-      this.toast.success('Successfully saved!!')
+      this.toast.success('Successfully saved!!',{dismissible:true,position:'bottom-center'})
     }
     this.customerForm.reset();
 

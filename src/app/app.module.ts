@@ -6,6 +6,7 @@ import { LayoutModule } from './layout/layout.module';
 import { NgUIModule } from './shared/ng-ui.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { provideHotToastConfig } from '@ngxpert/hot-toast';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     LayoutModule,

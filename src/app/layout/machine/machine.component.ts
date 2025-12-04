@@ -48,14 +48,14 @@ export class MachineComponent {
     const machine: Machine = this.machineForm.value as Machine;
 
     if (!this.machineForm.valid) {
-      this.toast.error('fill the all fields')
+      this.toast.error('fill the all fields',{dismissible:true})
       return
     };
 
     if (this.machineForm.valid) {
       const newMachine = { machineId: this.generatedMachId([]), ...machine }
       console.log(newMachine);
-      this.toast.success('Successfully saved!!')
+      this.toast.success('Successfully saved!!',{dismissible:true,position:'bottom-center'})
     }
     this.machineForm.reset();
   }
