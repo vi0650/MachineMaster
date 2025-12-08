@@ -51,14 +51,7 @@ namespace MachineApi.Controllers
             var user = await dbContext.Users.FindAsync(id);
             if (user == null) return NotFound();
 
-            user.UserName = req.UserName;
-            user.Password = req.Password;
-            user.Email = req.Email;
-            user.Role = req.Role;
-            user.isActive = req.isActive;
-            user.Description = req.Description;
-            user.CreatedDate = DateTime.Now;
-            user.UpdatedDate = DateTime.Now;
+            dbContext.Entry(user).CurrentValues.SetValues(req);
 
             await dbContext.SaveChangesAsync();
             return Ok(User);

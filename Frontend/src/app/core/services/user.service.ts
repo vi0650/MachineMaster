@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +33,19 @@ export class UserService {
   deleteUser(id:number){
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+
+  newUserId(existingId: number[]): number {
+      let id: number;
+      do {
+        const uuid = uuidv4();
+        const numeric = uuid.replace(/\D/g, '');
+        let sub = numeric.substring(0, 5);
+        sub = sub.padStart(5, '0');
+        id = Number(sub);
+        if (id < 10000) {
+          id += 10000;
+        }
+      } while (existingId.includes(id))
+      return id;
+    }
 }

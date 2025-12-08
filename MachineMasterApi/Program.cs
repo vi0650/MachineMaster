@@ -26,11 +26,11 @@ builder.Services.AddDbContext<MachineDbContext>(options =>
 var app = builder.Build();
 
 // AUTO MIGRATION AFTER BUILD
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<MachineDbContext>();
-    db.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var db = scope.ServiceProvider.GetRequiredService<MachineDbContext>();
+//    db.Database.Migrate();
+//}
 
 // Swagger
 if (app.Environment.IsDevelopment())

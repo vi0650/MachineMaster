@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../core/models/user';
+import { User, UserRole } from '../core/models/user';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { LoginService } from '../core/services/login.service';
@@ -16,7 +16,8 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   hidePassword = false;
-  userdata:User[]=[];
+  userdata: User[] = [];
+  role = Object.values(UserRole);
 
   constructor(private fb: FormBuilder, private loginData: LoginService, private router: Router, private toast: HotToastService) {
 
@@ -29,26 +30,6 @@ export class LoginComponent {
       userName: ['', Validators.required],
       password: ['', Validators.required]
     });
-
-    // Store default users only once
-    // const existing = localStorage.getItem("users");
-    // if (!existing) {
-    //   const defaultUsers: User[] = [
-    //     {
-    //       userId: 1,
-    //       userName: 'admin',
-    //       password: '1234',
-    //       email: '',
-    //       role: UserRole.Admin,
-    //       isActive: true,
-    //       description: '',
-    //       createdDate: new Date(),
-    //       updatedDate: new Date()
-    //     }
-    //   ];
-
-    //   localStorage.setItem("users", JSON.stringify(defaultUsers));
-    // }
   }
 
   showHidePassword() {
@@ -85,19 +66,19 @@ export class LoginComponent {
   // }
 
   loginUser() {
-    const user:User = this.loginForm.value as User;
-    if (!user.userName?.trim()){
+    const user: User = this.loginForm.value as User;
+    if (!user.userName?.trim()) {
       this.toast.error(`please enter <b><u>UserName</u></b>`);
       return;
-    }else if(!user.password?.trim()){
-      this.toast.error('please enter your password');
+    } else if (!user.password?.trim()) {
+      this.toast.error('please enter your <b><u>password</u></b>');
       return;
     };
     console.log("Form Value:", user);
     this.loginData.login(user).pipe(
       hotToastObserve(this.toast, {
         loading: "Logging in...",
-        success: (res: any) => `Welcome ${res.userName}!`,
+        success: "",
         error: (err) => {
           if (err.status === 0) return "Server offline!";
           if (err.status === 401) return "Invalid credentials!";
@@ -106,10 +87,21 @@ export class LoginComponent {
       })
     ).subscribe({
       next: (res: any) => {
-        console.log("Response: ", res);
         if (!res) return;
-        localStorage.setItem("loggedUser", JSON.stringify(res));
-        this.router.navigate(['/layout']);
+        if (!res.isActive) {
+          this.toast.info(`<b>${res.userName}</b> is not active!`);
+          return;
+        }
+        console.log("Response: ", res);
+        if (res.role !== UserRole.Admin && !user.isActive) {
+          this.toast.info('you are not an Admin')
+        }
+        if (res.role === UserRole.Admin || user.isActive) {
+          this.toast.success(`Welcome ${res.userName}!`);
+          localStorage.setItem("loggedUser", JSON.stringify(res));
+          this.router.navigate(['/layout']);
+        }
+        return this.router.parseUrl('login')
       },
     });
   }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MachineMasterApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Usertablemigrationusingloginverification : Migration
+    public partial class Firstmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

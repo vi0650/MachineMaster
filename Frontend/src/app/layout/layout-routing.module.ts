@@ -20,6 +20,7 @@ const routes: Routes = [
       { path: 'machine_status_info', component: MachineStatusInfoComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'users-form', component: UserFormComponent },
+      { path: 'users-form/:id', component: UserFormComponent },
       { path: 'users', component: UsersComponent },
       { path: '', redirectTo: 'customer', pathMatch: 'full' }
     ],

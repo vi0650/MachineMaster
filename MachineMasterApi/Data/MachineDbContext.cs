@@ -5,7 +5,7 @@ namespace MachineApi.Data
 {
     public class MachineDbContext : DbContext
     {
-        public MachineDbContext(DbContextOptions options) : base(options)
+        public MachineDbContext(DbContextOptions<MachineDbContext> options) : base(options)
         {
 
         }

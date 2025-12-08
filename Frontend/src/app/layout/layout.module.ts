@@ -12,6 +12,7 @@ import { UsersComponent } from './users/users.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UserFormComponent } from './users/user-form/user-form.component';
 import { MatRecycleRows } from "@angular/material/table";
+import { BooleanTextPipe } from '../core/pipes/boolean-text.pipe';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { MatRecycleRows } from "@angular/material/table";
     MachineStatusInfoComponent,
     UsersComponent,
     UserFormComponent,
+    BooleanTextPipe
   ],
   imports: [
     CommonModule,

@@ -6,7 +6,7 @@ import { LayoutModule } from './layout/layout.module';
 import { NgUIModule } from './shared/ng-ui.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     AppRoutingModule,
     LayoutModule,
-    NgUIModule
+    NgUIModule,
   ],
   bootstrap: [AppComponent],
   providers: [

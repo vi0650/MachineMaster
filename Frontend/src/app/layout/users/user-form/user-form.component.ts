@@ -1,13 +1,12 @@
-import { ChangeDetectionStrategy, Component, Inject, inject, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, inject } from '@angular/core';
 import { NgUIModule } from '../../../shared/ng-ui.module';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { v4 as uuidv4, validate } from 'uuid';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { User, UserRole } from '../../../core/models/user';
 import { UserService } from '../../../core/services/user.service';
 import { hotToastObserve } from '../../../core/utils/toast-observer';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-form',
@@ -20,77 +19,93 @@ export class UserFormComponent {
   userForm: FormGroup;
   hidePassword = false;
   users: User[] = [];
+  userId!: number;
   roles = Object.values(UserRole);
-  // roles = [
-  //   { value: UserRole.Admin, label: 'Administrator' },
-  //   { value: UserRole.User, label: 'Standard User' },
-  //   { value: UserRole.Manager, label: 'Team Manager' }
-  // ];
+  isUpdate = false;
+  existingIds: number[] = []
 
-  constructor(private fb: FormBuilder, private toast: HotToastService, private userService: UserService, private router: Router) {
-    this.userForm = this.fb.group({
-      userId: [this.newUserId([]), Validators.required],
+  private buildForm(): FormGroup {
+    return this.fb.group({
+      userId: ['', Validators.required],
       userName: ['', Validators.required],
-      password: ['', [Validators.required]],
+      password: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       role: ['', Validators.required],
       isActive: [true],
       description: [''],
       createdDate: [new Date()],
-      updatedDate: [new Date()],
+      updatedDate: [new Date()]
     });
+  }
+  private createUser(user: User) {
+    this.userService.addUser(user).pipe(
+      hotToastObserve(this.toast, {
+        loading: "Just a Second....",
+        success: (res: any) => `${res.userName} Successfully Saved!`,
+        error: err => {
+          if (err.status === 0) return "Server Sleeping!";
+          if (err.status === 401) return "Invalid Data!";
+          return "Something Crashed!";
+        }
+      }),
+    ).subscribe(() => {
+      this.existingIds.push(user.userId);
+      this.userForm.reset();
+      this.generateId();   // fresh ID for next user
+      this.router.navigate(['users']);
+    });
+  }
+
+  private updateUserData(user: User) {
+    this.userService.updateUser(this.userId, user).pipe(
+      hotToastObserve(this.toast, {
+        loading: "Updating data....",
+        success: () => `data Updated successfully`,
+        error: err => {
+          if (err.status === 0) return "Server Sleeping!";
+          if (err.status === 401) return "Invalid Data!";
+          return "Something Crashed!";
+        }
+      }),
+    ).subscribe(() => {
+      this.router.navigate(['users'])
+    })
+  }
+
+  private loadUserData(id: number) {
+    this.userService.getUserById(id).subscribe((user) => {
+      this.userForm.patchValue(user);
+    });
+  }
+
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private toast: HotToastService, private userService: UserService, private router: Router) {
+    this.userForm = this.buildForm();
+    console.log('user form');
+  }
+
+  ngOnInit(): void {
+    this.userId = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.userId) {
+      this.isUpdate = true;
+      this.loadUserData(this.userId)
+    } else {
+      this.generateId()
+    }
   }
 
   showHidePassword() {
     this.hidePassword = !this.hidePassword;
   }
 
-  newUserId(existingId: number[]): number {
-    let id: number;
-    do {
-      const uuid = uuidv4();
-      const numeric = uuid.replace(/\D/g, '');
-      let sub = numeric.substring(0, 5);
-      sub = sub.padStart(5, '0');
-      id = Number(sub);
-      if (id < 10000) {
-        id += 10000;
-      }
-    } while (existingId.includes(id))
-    return id;
+  generateId() {
+    const newId = this.userService.newUserId(this.existingIds);
+    this.userForm.patchValue({
+      userId: newId
+    });
+    console.log('generated ID :', newId);
   }
 
-  // saveForm() {
-  //   const user: User = this.userForm.value as User;
-  //   if (this.userForm.invalid) {
-  //     this.toast.error('fill the all fields')
-  //     return
-  //   };
-  //   if (this.userForm.valid) {
-  //     const newUser = { ...user }
-  //     console.log(newUser);
-  //     this.userService.addUser(newUser).pipe(
-  //       hotToastObserve(this.toast, {
-  //         loading: "Just a Second....",
-  //         success: (res: any) => `User ${res.userName} Saved!`,
-  //         error: (err) => {
-  //           if (err.status === 0) return "Data not Saved, Server is Sleeping! 😪";
-  //           if (err.status === 401) return "Invalid Data! 🤔";
-  //           return "Something Crashed! 😱";
-  //         }
-  //       }),
-  //     ).subscribe({
-  //       next: (res: any) => {
-  //         console.log("successfully saved ....", res);
-  //         // this.toast.success('Successfully saved!!',{ dismissible: true, position: 'bottom-center' });
-  //       }
-  //     })
-  //   }
-  //   this.userForm.reset();
-  //   // window.location.reload();
-  // }
-
-  saveConfirmDialog() {
+  saveUser() {
     const user: User = this.userForm.value as User;
     if (this.userForm.invalid) {
       this.toast.error('Form is Empty')
@@ -104,31 +119,17 @@ export class UserFormComponent {
       console.log(`dialog result : ${result}`);
       if (result !== 'confirm') return;
       const newUser = { ...user }
-      console.log(newUser);
-      this.userService.addUser(newUser).pipe(
-        hotToastObserve(this.toast, {
-          loading: "Just a Second....",
-          success: (res: any) => `User ${res.userName} Successfully Saved!`,
-          error: (err) => {
-            if (err.status === 0) return "Data not Saved, Server is Sleeping! 😪";
-            if (err.status === 401) return "Invalid Data! 🤔";
-            return "Something Crashed! 😱";
-          }
-        }),
-      ).subscribe({
-        next: () => {
-          this.userForm.reset();
-          this.userForm.patchValue({
-            userId: this.newUserId([])   // 🔥 New ID auto set
-          });
-          this.router.navigate(['users']);
-        }
-      })
+      console.log(newUser)
+      if (this.isUpdate) {
+        this.updateUserData(newUser);
+      } else {
+        this.createUser(newUser)
+      }
     }
     )
   }
 
-  cancel(){
+  cancel() {
     this.router.navigate(['users']);
   }
 }

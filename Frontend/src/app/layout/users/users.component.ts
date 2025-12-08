@@ -4,7 +4,6 @@ import { User } from '../../core/models/user';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { UserService } from '../../core/services/user.service';
-import { UserFormComponent } from './user-form/user-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { Router } from '@angular/router';
@@ -36,16 +35,19 @@ export class UsersComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-
-  constructor(private userService: UserService, private toast: HotToastService, private router: Router) { }
+  constructor(private userService: UserService, private toast: HotToastService, private router: Router) {
+    console.log('users list');
+    
+   }
 
   ngOnInit(): void {
     this.loadUsers();
   }
 
-  // ngAfterViewInit(): void {
-  //   this.dataSource.paginator = this.paginator;
-  // }
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort=this.sort
+  }
 
   loadUsers() {
     this.userService.getAllUsers().subscribe((users: User[]) => {
@@ -60,13 +62,15 @@ export class UsersComponent {
     this.dataSource.filter = filterValue;
   }
 
-  editUser(row: any) { }
+  editUser(row:User){
+    this.router.navigate(['/users-form',row.userId]);
+  }
 
   deleteUser(row: User) {
     this.userService.deleteUser(row.userId).pipe(
       hotToastObserve(this.toast, {
         loading: "user deleting...",
-        success: () => `${row.userName} Successfully Deleted!`,
+        success: () => `${row.userName} Deleted!`,
         error: (err) => {
           if (err.status === 0) return "server offline!";
           if (err.status === 401) return "api misunderstood"

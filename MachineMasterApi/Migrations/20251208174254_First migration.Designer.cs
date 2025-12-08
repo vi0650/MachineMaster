@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MachineMasterApi.Migrations
 {
     [DbContext(typeof(MachineDbContext))]
-    [Migration("20251204062350_User table migration using login verification")]
-    partial class Usertablemigrationusingloginverification
+    [Migration("20251208174254_First migration")]
+    partial class Firstmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

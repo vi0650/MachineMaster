@@ -20,7 +20,9 @@ export function hotToastObserve<T>(
             ? options.success(res)
             : options.success;
 
-        toast.success(message);
+        if (message && message.trim() !== "") {
+          toast.success(message);
+        }
       }),
 
       catchError((err) => {
