@@ -9,7 +9,7 @@ namespace MachineApi.Data
         {
 
         }
-        public DbSet<UserModel> Users { get; set; }
+        public DbSet<UserModel> Users { get; set; } // dbset makes tables to database and take reference from model
 
 
         //public DbSet<UserLoginData> LoginData { get; set; }

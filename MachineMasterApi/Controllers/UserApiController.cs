@@ -7,19 +7,14 @@ namespace MachineApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserApiController : ControllerBase
+    public class UserApiController(MachineDbContext dbContext) : ControllerBase
     {
         //private static List<tblUserModel> UsersData = new List<tblUserModel>
         //{
         //    new tblUserModel { UserId = 1 , UserName = "admin", Password = "123", Email = "admin@gmail.com", Role = "admin", isActive = false, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now }
         //};
 
-        private readonly MachineDbContext dbContext;
-
-        public UserApiController(MachineDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
+        private readonly MachineDbContext dbContext = dbContext;
 
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
@@ -77,7 +72,7 @@ namespace MachineApi.Controllers
 
             dbContext.Users.Remove(user);
             await dbContext.SaveChangesAsync();
-            return Ok("deleted successfully");
+            return Ok(new { message = "deleted" });
         }
 
         [HttpPost("login")]
