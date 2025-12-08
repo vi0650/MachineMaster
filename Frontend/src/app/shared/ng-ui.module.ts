@@ -10,7 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatDrawer, MatDrawerContainer, MatDrawerContent, MatSidenav, MatSidenavContainer, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { MatDivider, MatList, MatListItem, MatListModule, MatNavList } from '@angular/material/list';
-import { MatTableModule } from '@angular/material/table';
+import { MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatHeaderRow, MatRow, MatTable, MatTableModule } from '@angular/material/table';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatOption, MatSelect, MatSelectModule } from '@angular/material/select';
@@ -21,6 +21,9 @@ import { MatAccordion, MatExpansionModule, MatExpansionPanel, MatExpansionPanelH
 import { MatGridList, MatGridListModule, MatGridTile } from '@angular/material/grid-list';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortHeader, MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [],
@@ -48,6 +51,12 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     MatGridListModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatTooltipModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatRow,
+    MatSort,
+    MatSortHeader,
   ],
   exports: [
     MatIcon,
@@ -96,7 +105,21 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     MatOption,
     MatDatepicker,
     MatDatepickerInput,
-    MatDatepickerToggle
+    MatDatepickerToggle,
+    MatTooltip,
+    MatTable,
+    MatPaginator,
+    MatCell,
+    MatCellDef,
+    MatHeaderRow,
+    MatHeaderCell,
+    MatHeaderCellDef,
+    MatColumnDef,
+    MatSortHeader,
+    MatRow,
+    MatTableModule,
+    MatSort,
+    MatSortHeader,
   ],
   providers:[provideNativeDateAdapter()]
 })

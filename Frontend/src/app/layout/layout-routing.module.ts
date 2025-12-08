@@ -7,6 +7,7 @@ import { ProductsComponent } from './products/products.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { MachineStatusInfoComponent } from './machine-status-info/machine-status-info.component';
 import { UsersComponent } from './users/users.component';
+import { UserFormComponent } from './users/user-form/user-form.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: 'machine', component: MachineComponent },
       { path: 'machine_status_info', component: MachineStatusInfoComponent },
       { path: 'products', component: ProductsComponent },
+      { path: 'users-form', component: UserFormComponent },
       { path: 'users', component: UsersComponent },
       { path: '', redirectTo: 'customer', pathMatch: 'full' }
     ],

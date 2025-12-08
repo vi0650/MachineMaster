@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User, UserRole } from '../core/models/user';
+import { User } from '../core/models/user';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { LoginService } from '../core/services/login.service';
@@ -16,6 +16,7 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   hidePassword = false;
+  userdata:User[]=[];
 
   constructor(private fb: FormBuilder, private loginData: LoginService, private router: Router, private toast: HotToastService) {
 
@@ -23,7 +24,6 @@ export class LoginComponent {
     if (logged) {
       router.navigate(['/layout'], { replaceUrl: true });
     };
-
 
     this.loginForm = this.fb.group({
       userName: ['', Validators.required],
@@ -85,10 +85,16 @@ export class LoginComponent {
   // }
 
   loginUser() {
-    if (this.loginForm.invalid) return;
-    console.log("Form Value:", this.loginForm.value);
-
-    this.loginData.login(this.loginForm.value).pipe(
+    const user:User = this.loginForm.value as User;
+    if (!user.userName?.trim()){
+      this.toast.error(`please enter <b><u>UserName</u></b>`);
+      return;
+    }else if(!user.password?.trim()){
+      this.toast.error('please enter your password');
+      return;
+    };
+    console.log("Form Value:", user);
+    this.loginData.login(user).pipe(
       hotToastObserve(this.toast, {
         loading: "Logging in...",
         success: (res: any) => `Welcome ${res.userName}!`,
@@ -99,13 +105,13 @@ export class LoginComponent {
         },
       })
     ).subscribe({
-        next: (res: any) => {
-          console.log("Response:", res);
-          if (!res) return;
-          localStorage.setItem("loggedUser", JSON.stringify(res));
-          this.router.navigate(['/layout']);
-        },
-      });
+      next: (res: any) => {
+        console.log("Response: ", res);
+        if (!res) return;
+        localStorage.setItem("loggedUser", JSON.stringify(res));
+        this.router.navigate(['/layout']);
+      },
+    });
   }
 
 }

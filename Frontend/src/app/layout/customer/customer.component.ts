@@ -16,7 +16,12 @@ import { HotToastService } from '@ngxpert/hot-toast';
 })
 export class CustomerComponent {
 
+  readonly dialog = inject(MatDialog);
   customerForm: FormGroup;
+  customers: Customer[] = [];
+  cities = CITIES;
+  states = STATES;
+  newCustomer = { customerName: '', }
 
   constructor(private fb: FormBuilder, private toast: HotToastService) {
     this.customerForm = this.fb.group({
@@ -31,21 +36,20 @@ export class CustomerComponent {
       createdDate: [new Date()],
       updatedDate: [new Date()],
     });
+
   }
 
-  customers: Customer[] = [];
-  cities = CITIES;
-  states = STATES;
-  newCustomer = { customerName: '', }
-
-  readonly dialog = inject(MatDialog);
-
-  generatedCustId(existingId: number[]): number {
+  newCustId(existingId: number[]): number {
     let id: number;
     do {
       const uuid = uuidv4();
       const numeric = uuid.replace(/\D/g, '');
-      id = Number(numeric.substring(0, 5) || Math.floor(1000 + Math.random() * 9000));
+      let sub = numeric.substring(0, 5);
+      sub = sub.padStart(5, '0');
+      id = Number(sub);
+      if (id < 10000) {
+        id += 10000;
+      }
     } while (existingId.includes(id))
     return id;
   }
@@ -59,9 +63,9 @@ export class CustomerComponent {
     };
 
     if (this.customerForm.valid) {
-      const newCustomer = { customerId: this.generatedCustId([]), ...grahak }
+      const newCustomer = { customerId: this.newCustId([]), ...grahak }
       console.log(newCustomer);
-      this.toast.success('Successfully saved!!',{dismissible:true,position:'bottom-center'})
+      this.toast.success('Successfully saved!!', { dismissible: true, position: 'bottom-center' })
     }
     this.customerForm.reset();
 

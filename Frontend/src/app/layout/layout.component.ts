@@ -2,6 +2,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { LoginService } from '../core/services/login.service';
 
 @Component({
   selector: 'app-layout',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LayoutComponent {
 
-  constructor(private router: Router, private dialog: MatDialog) {
+  constructor(private router: Router, private dialog: MatDialog,private loginData: LoginService) {
     console.log('layout module load');
 
     const media = inject(MediaMatcher);
@@ -36,6 +37,10 @@ export class LayoutComponent {
   logout() {
     localStorage.removeItem('loggedUser');
     this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
+  username(){
+    
   }
 
 }

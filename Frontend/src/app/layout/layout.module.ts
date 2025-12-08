@@ -10,6 +10,8 @@ import { NgUIModule } from '../shared/ng-ui.module';
 import { MachineStatusInfoComponent } from './machine-status-info/machine-status-info.component';
 import { UsersComponent } from './users/users.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { UserFormComponent } from './users/user-form/user-form.component';
+import { MatRecycleRows } from "@angular/material/table";
 
 
 @NgModule({
@@ -20,13 +22,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     MachineComponent,
     MachineStatusInfoComponent,
     UsersComponent,
+    UserFormComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     LayoutRoutingModule,
-    NgUIModule
+    NgUIModule,
+    MatRecycleRows
 ]
 })
 export class LayoutModule { }
