@@ -11,15 +11,19 @@ import { hotToastObserve } from '../../core/utils/toast-observer';
 
 @Component({
   selector: 'app-users',
-  standalone: false,
   templateUrl: './users.component.html',
+  standalone: false,
   styleUrl: './users.component.scss',
 })
 export class UsersComponent {
 
   readonly dialog = inject(MatDialog);
+  private userService = inject(UserService);
+  private toast = inject(HotToastService);
+  private router = inject(Router);
+
   dataSource = new MatTableDataSource<User>();
-  displayColumns: string[] = [
+  displayColumns = [
     'userId',
     'userName',
     'password',
@@ -35,35 +39,34 @@ export class UsersComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService, private toast: HotToastService, private router: Router) {
-    console.log('users list');
-    
-   }
-
   ngOnInit(): void {
     this.loadUsers();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort=this.sort
+    this.dataSource.sort = this.sort;
+
+    // faster filtering
+    this.dataSource.filterPredicate = (data, filter) =>
+      data.userName.toLowerCase().includes(filter) ||
+      data.email.toLowerCase().includes(filter);
   }
 
   loadUsers() {
-    this.userService.getAllUsers().subscribe((users: User[]) => {
+    this.userService.getAllUsers().subscribe(users => {
+      // direct data update - no datasource recreation
       this.dataSource.data = users;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
+    });
   }
 
   applyFilter(event: any) {
-    const filterValue = event.target.value.trim().toLowerCase();
-    this.dataSource.filter = filterValue;
+    const value = event.target.value.trim().toLowerCase();
+    this.dataSource.filter = value;
   }
 
-  editUser(row:User){
-    this.router.navigate(['/users-form',row.userId]);
+  editUser(row: User) {
+    this.router.navigate(['/users-form', row.userId]);
   }
 
   deleteUser(row: User) {
@@ -73,19 +76,14 @@ export class UsersComponent {
         success: () => `${row.userName} Deleted!`,
         error: (err) => {
           if (err.status === 0) return "server offline!";
-          if (err.status === 401) return "api misunderstood"
+          if (err.status === 401) return "api misunderstood";
           return "Something Crashed! 😱";
         }
       }),
-    ).subscribe({
-      next: (res: any) => {
-        // this.router.navigate([this.router.url], { onSameUrlNavigation: 'reload' });
-        this.loadUsers();
-      }
-    })
+    ).subscribe(() => this.loadUsers());
   }
 
   addUser() {
-    this.router.navigate(['users-form']);
+    this.router.navigate(['/users-form']);
   }
 }

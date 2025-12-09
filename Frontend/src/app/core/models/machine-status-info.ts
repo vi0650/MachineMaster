@@ -1,5 +1,5 @@
 export interface MachineStatusInfo {
-  Id: number;
+  id: number;
   machineId: number;
   customerId:number;
   isOnline:boolean | null;

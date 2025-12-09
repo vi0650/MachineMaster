@@ -50,14 +50,15 @@
                 </mat-expansion-panel>
 
                 <!--/ 2 -->
+
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <mat-icon>badge</mat-icon>Customers
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <a mat-list-item (click)="closeSidebar()" routerLink="/customer" routerLinkActive="active-link">Add
-                        Customer</a>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/customer" routerLinkActive="active-link">Customer</a>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/customer-form" routerLinkActive="active-link">Add Customer</a>
                 </mat-expansion-panel>
 
                 <!--/ 3 -->
@@ -68,8 +69,8 @@
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <mat-list role="list">
-                        <a mat-list-item (click)="closeSidebar()" routerLink="/machine"
-                            routerLinkActive="active-link">Add Machine</a>
+                        <a mat-list-item (click)="closeSidebar()" routerLink="/machine" routerLinkActive="active-link">Machine</a>
+                        <a mat-list-item (click)="closeSidebar()" routerLink="/machine-form" routerLinkActive="active-link">Add Machine</a>
                     </mat-list>
                 </mat-expansion-panel>
                 <!--/ 4 -->
@@ -80,9 +81,8 @@
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <mat-list role="list">
-                        <a mat-list-item (click)="closeSidebar()" routerLink="/machine_status_info"
-                            routerLinkActive="active-link">Add Machine
-                            Status</a>
+                        <a mat-list-item (click)="closeSidebar()" routerLink="/machine_status_info" routerLinkActive="active-link">Machine Status</a>
+                        <a mat-list-item (click)="closeSidebar()" routerLink="/machine_status_info-form" routerLinkActive="active-link">Add Machine Status</a>
                     </mat-list>
                 </mat-expansion-panel>
                 <!--/ 5 -->
@@ -92,10 +92,22 @@
                             <mat-icon>inventory</mat-icon> Products
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <a mat-list-item (click)="closeSidebar()" routerLink="/products" routerLinkActive="active-link">Add
-                        Product</a>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/products" routerLinkActive="active-link">Products</a>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/products-form" routerLinkActive="active-link">Add Product</a>
                 </mat-expansion-panel>
 
+                <!--/ 6 -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>category</mat-icon>Category
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/category" routerLinkActive="active-link">Category</a>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/category-form" routerLinkActive="active-link">Add Category</a>
+                </mat-expansion-panel>
+
+                <!--/ 7 -->
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>

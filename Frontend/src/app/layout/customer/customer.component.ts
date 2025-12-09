@@ -25,6 +25,7 @@ export class CustomerComponent {
 
   constructor(private fb: FormBuilder, private toast: HotToastService) {
     this.customerForm = this.fb.group({
+      customerId:[''],
       customerName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       mobileNo: ['', [Validators.required, Validators.pattern("^[0-9]{10}$")]],
@@ -63,7 +64,7 @@ export class CustomerComponent {
     };
 
     if (this.customerForm.valid) {
-      const newCustomer = { customerId: this.newCustId([]), ...grahak }
+      const newCustomer = { ...grahak }
       console.log(newCustomer);
       this.toast.success('Successfully saved!!', { dismissible: true, position: 'bottom-center' })
     }
@@ -81,10 +82,4 @@ export class CustomerComponent {
 
 }
 
-@Component({
-  selector: 'customer-dialog',
-  templateUrl: './dialogs/customer-dialog.html',
-  imports: [NgUIModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class customerDialog { }
+

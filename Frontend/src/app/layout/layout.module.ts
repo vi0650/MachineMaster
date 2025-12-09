@@ -13,6 +13,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UserFormComponent } from './users/user-form/user-form.component';
 import { MatRecycleRows } from "@angular/material/table";
 import { BooleanTextPipe } from '../core/pipes/boolean-text.pipe';
+import { ProductFormComponent } from './products/product-form/product-form.component';
+import { CategoryComponent } from './category/category.component';
+import { CategoryFormComponent } from './category/category-form/category-form.component';
+import { CustomerFormComponent } from './customer/customer-form/customer-form.component';
+import { MachineFormComponent } from './machine/machine-form/machine-form.component';
+import { MachineStatusInfoFormComponent } from './machine-status-info/machine-status-info-form/machine-status-info-form.component';
 
 
 @NgModule({
@@ -24,7 +30,13 @@ import { BooleanTextPipe } from '../core/pipes/boolean-text.pipe';
     MachineStatusInfoComponent,
     UsersComponent,
     UserFormComponent,
-    BooleanTextPipe
+    BooleanTextPipe,
+    ProductFormComponent,
+    CategoryComponent,
+    CategoryFormComponent,
+    CustomerFormComponent,
+    MachineFormComponent,
+    MachineStatusInfoFormComponent
   ],
   imports: [
     CommonModule,

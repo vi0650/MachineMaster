@@ -16,13 +16,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class UserFormComponent {
   readonly dialog = inject(MatDialog);
-  userForm: FormGroup;
-  hidePassword = false;
   users: User[] = [];
+  existingIds: number[] = []
+  userForm: FormGroup;
   userId!: number;
   roles = Object.values(UserRole);
+  hidePassword = false;
   isUpdate = false;
-  existingIds: number[] = []
 
   private buildForm(): FormGroup {
     return this.fb.group({
@@ -37,6 +37,7 @@ export class UserFormComponent {
       updatedDate: [new Date()]
     });
   }
+
   private createUser(user: User) {
     this.userService.addUser(user).pipe(
       hotToastObserve(this.toast, {
@@ -54,6 +55,14 @@ export class UserFormComponent {
       this.generateId();   // fresh ID for next user
       this.router.navigate(['users']);
     });
+  }
+  
+  protected generateId() {
+    const newId = this.userService.newUserId(this.existingIds);
+    this.userForm.patchValue({
+      userId: newId
+    });
+    console.log('generated ID :', newId);
   }
 
   private updateUserData(user: User) {
@@ -78,6 +87,12 @@ export class UserFormComponent {
     });
   }
 
+  private fixDate(date: any) {
+    const d = new Date(date);
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split('T')[0];
+  }
+
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private toast: HotToastService, private userService: UserService, private router: Router) {
     this.userForm = this.buildForm();
     console.log('user form');
@@ -97,14 +112,6 @@ export class UserFormComponent {
     this.hidePassword = !this.hidePassword;
   }
 
-  generateId() {
-    const newId = this.userService.newUserId(this.existingIds);
-    this.userForm.patchValue({
-      userId: newId
-    });
-    console.log('generated ID :', newId);
-  }
-
   saveUser() {
     const user: User = this.userForm.value as User;
     if (this.userForm.invalid) {
@@ -119,6 +126,8 @@ export class UserFormComponent {
       console.log(`dialog result : ${result}`);
       if (result !== 'confirm') return;
       const newUser = { ...user }
+      newUser.updatedDate = this.fixDate(user.updatedDate);
+      newUser.createdDate = this.fixDate(user.createdDate);
       console.log(newUser)
       if (this.isUpdate) {
         this.updateUserData(newUser);
@@ -160,4 +169,3 @@ export class userDialog {
     this.dialogRef.close('cancel');
   }
 }
-

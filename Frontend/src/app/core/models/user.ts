@@ -1,13 +1,13 @@
 export interface User {
   userId: number;
-  userName: string | null;
-  password?: string | null;
-  email?: string | null;
-  role?: UserRole | string | null;
+  userName: string | any;
+  password?: string | any;
+  email?: string | any;
+  role?: UserRole | string | any;
   isActive: boolean | null;
-  description?: string | null;
-  createdDate?: Date | null;
-  updatedDate?: Date | null;
+  description?: string | any;
+  createdDate?: Date | any;
+  updatedDate?: Date | any;
 }
 
 export enum UserRole {

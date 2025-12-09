@@ -1,5 +1,5 @@
 export interface Machine {
-    // machineId: number;
+    machineId: number;
     machineName: string | null;
     productId: number;
     description: string | null;
