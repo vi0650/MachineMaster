@@ -27,19 +27,16 @@ namespace MachineApi.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var user = await dbContext.Users.FindAsync(id);
-
-            if (user == null) return NotFound("User Not Found");
-
-            return Ok(user);
+            return user == null ? NotFound("User Not Found") : Ok(user);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(UserModel req)
         {
             //req.CreatedDate = DateTime.Now;
-            //req.isActive = true;
+            //req.IsActive = true;
 
-            dbContext.Users.Add(req);
+            await dbContext.Users.AddAsync(req);
             await dbContext.SaveChangesAsync();
 
             return Ok(req);
@@ -54,7 +51,7 @@ namespace MachineApi.Controllers
             dbContext.Entry(user).CurrentValues.SetValues(req);
 
             await dbContext.SaveChangesAsync();
-            return Ok(User);
+            return Ok(user);
         }
 
         [HttpDelete("{id}")]
@@ -81,7 +78,7 @@ namespace MachineApi.Controllers
             {
                 userId = user.UserId,
                 userName = user.UserName,
-                user.isActive,
+                user.IsActive,
                 user.Description,
                 role = user.Role
             });
