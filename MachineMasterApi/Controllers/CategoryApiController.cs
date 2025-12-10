@@ -42,6 +42,7 @@ namespace MachineMasterApi.Controllers
             if (category == null) return NotFound("Category does not exist");
 
             dbContext.Entry(category).CurrentValues.SetValues(req);
+            await dbContext.SaveChangesAsync();
             return Ok(category);
         }
 
