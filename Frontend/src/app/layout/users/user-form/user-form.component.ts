@@ -17,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class UserFormComponent {
   readonly dialog = inject(MatDialog);
   users: User[] = [];
-  existingIds: number[] = []
+  existingIds: number[] = [];
   userForm: FormGroup;
   userId!: number;
   roles = Object.values(UserRole);
@@ -158,8 +158,6 @@ export class userDialog {
   ) {
     console.log(this.data);
   }
-
-  user: User[] = []
 
   confirm() {
     this.dialogRef.close('confirm');

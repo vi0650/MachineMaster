@@ -1,6 +1,7 @@
 .user-list-container {
   padding: 1rem;
   background: transparent;
+  // border: 1px solid darkgray;
 }
 
 .top-bar {
@@ -10,6 +11,12 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 0.4rem;
+}
+
+
+mat-card{
+  // border: 1px solid grey;
+  border-radius: 7px;
 }
 
 table{
@@ -22,13 +29,13 @@ table{
   border-radius: 8px;
   background: transparent;
   width: 100%;
-  max-height: 400px;
+  max-height: 600px;
 }
 
 .mat-mdc-header-row {
   position: sticky;
   top: 0;
-  background: white;
+  background: wheat;
   z-index: 10;
 }
 

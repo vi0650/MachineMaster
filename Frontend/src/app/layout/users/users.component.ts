@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { Router } from '@angular/router';
 import { hotToastObserve } from '../../core/utils/toast-observer';
+import { USER_COL } from '../../core/data/tabledata/userColumns';
 
 @Component({
   selector: 'app-users',
@@ -23,18 +24,7 @@ export class UsersComponent {
   private router = inject(Router);
 
   dataSource = new MatTableDataSource<User>();
-  displayColumns = [
-    'userId',
-    'userName',
-    'password',
-    'role',
-    'email',
-    'description',
-    'isActive',
-    'createdDate',
-    'updatedDate',
-    'actions'
-  ];
+  displayColumns = USER_COL;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -50,7 +40,8 @@ export class UsersComponent {
     // faster filtering
     this.dataSource.filterPredicate = (data, filter) =>
       data.userName.toLowerCase().includes(filter) ||
-      data.email.toLowerCase().includes(filter);
+      data.userId.toString().includes(filter) ||
+      data.role.toString().includes(filter)
   }
 
   loadUsers() {

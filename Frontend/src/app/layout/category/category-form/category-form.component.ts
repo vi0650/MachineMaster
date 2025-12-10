@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, inject, OnInit } from '@angular/core';
 import { NgUIModule } from '../../../shared/ng-ui.module';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,7 +14,7 @@ import { CategoryService } from '../../../core/services/category.service';
   templateUrl: './category-form.component.html',
   styleUrl: './category-form.component.scss'
 })
-export class CategoryFormComponent {
+export class CategoryFormComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
   category: Category[] = [];
@@ -34,12 +34,12 @@ export class CategoryFormComponent {
       updatedDate: [new Date()]
     });
   }
-  
+
   private createCategory(category: Category) {
     this.CategoryService.addCategory(category).pipe(
       hotToastObserve(this.toast, {
         loading: "Just a Second....",
-        success: (res: any) => `${res.userName} Successfully Saved!`,
+        success: (res: any) => `${res.categoryName} Successfully Saved!`,
         error: err => {
           if (err.status === 0) return "Server Sleeping!";
           if (err.status === 401) return "Invalid Data!";
@@ -49,7 +49,7 @@ export class CategoryFormComponent {
     ).subscribe(() => {
       this.existingIds.push(category.categoryId);
       this.categoryForm.reset();
-      this.generateId();   // fresh ID for next user
+      this.generateId();   // fresh ID for next category
       this.router.navigate(['category']);
     });
   }
@@ -62,7 +62,7 @@ export class CategoryFormComponent {
     console.log('generated ID :', newId);
   }
 
-  private updateUserData(category: Category) {
+  private updateCategoryData(category: Category) {
     this.CategoryService.updateCategory(this.categoryId, category).pipe(
       hotToastObserve(this.toast, {
         loading: "Updating data....",
@@ -84,9 +84,81 @@ export class CategoryFormComponent {
     });
   }
 
+  private fixDate(date: any) {
+    const d = new Date(date);
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split('T')[0];
+  }
+
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private toast: HotToastService, private CategoryService: CategoryService, private router: Router) {
     this.categoryForm = this.buildForm();
   }
 
+  ngOnInit(): void {
+    this.categoryId = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.categoryId) {
+      this.isUpdate = true;
+      this.loadCategoryData(this.categoryId)
+    } else {
+      this.generateId()
+    }
+  }
 
+  saveCategory() {
+    const category: Category = this.categoryForm.value as Category;
+    if (this.categoryForm.invalid) {
+      this.toast.error('Form is Empty')
+      return
+    };
+    const dialogRef = this.dialog.open(categoryDialog, {
+      width: '400px',
+      data: category.categoryName,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`dialog result : ${result}`);
+      if (result !== 'confirm') return;
+      const newCategory = { ...category }
+      newCategory.updatedDate = this.fixDate(category.updatedDate);
+      newCategory.createdDate = this.fixDate(category.createdDate);
+      console.log(newCategory)
+      if (this.isUpdate) {
+        this.updateCategoryData(newCategory);
+      } else {
+        this.createCategory(newCategory)
+      }
+    }
+    )
+  }
+
+  cancel() {
+    this.router.navigate(['category']);
+  }
+
+}
+
+
+@Component({
+  selector: 'category-dialog',
+  templateUrl: './dialogs/category-dialog.html',
+  standalone: true,
+  imports: [NgUIModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+
+export class categoryDialog {
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<categoryDialog>
+  ) {
+    console.log(this.data);
+  }
+
+  confirm() {
+    this.dialogRef.close('confirm');
+  }
+
+  close() {
+    this.dialogRef.close('cancel');
+  }
 }

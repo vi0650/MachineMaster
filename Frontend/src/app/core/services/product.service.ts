@@ -1,40 +1,40 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Product } from '../models/product';
 import { v4 as uuidv4 } from 'uuid';
-import { Category } from '../models/category';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
+export class ProductService {
 
-  private baseUrl = "https://localhost:7012/api/CategoryApi";
+  private baseUrl = "https://localhost:7012/api/ProductApi";
 
   constructor(private http:HttpClient) { }
 
-  getAllCategories(): Observable<Category[]>{
-    return this.http.get<Category[]>(this.baseUrl)
+  getAllProducts(): Observable<Product[]>{
+    return this.http.get<Product[]>(this.baseUrl)
   }
 
-  getCategoryById(id:number){
+  getProductById(id:number){
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  addCategory(data:any){
+  addProduct(data:any){
     console.log(data);
     return this.http.post(this.baseUrl,data);
   }
 
-  updateCategory(id:number,data:any){
+  updateProduct(id:number,data:any){
     return this.http.put(`${this.baseUrl}/${id}`,data);
   }
 
-  deleteCategory(id:number){
+  deleteProduct(id:number){
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
-  newCategoryId(existingId: number[]): number {
+  newProductId(existingId: number[]): number {
       let id: number;
       do {
         const uuid = uuidv4();
@@ -48,4 +48,5 @@ export class CategoryService {
       } while (existingId.includes(id))
       return id;
     }
+
 }

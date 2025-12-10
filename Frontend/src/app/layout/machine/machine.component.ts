@@ -53,7 +53,7 @@ export class MachineComponent {
     };
 
     if (this.machineForm.valid) {
-      const newMachine = { machineId: this.generatedMachId([]), ...machine }
+      const newMachine = { ...machine }
       console.log(newMachine);
       this.toast.success('Successfully saved!!',{dismissible:true,position:'bottom-center'})
     }
@@ -69,11 +69,3 @@ export class MachineComponent {
   // }
 
 }
-
-@Component({
-  selector: 'machine-dialog',
-  templateUrl: './dialogs/machine-dialog.html',
-  imports: [NgUIModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class machineDialog { }
