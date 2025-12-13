@@ -20,6 +20,6 @@ namespace MachineMasterApi.Models
         public DateTime? UpdatedDate { get; set; }
         public bool IsActive { get; set; }
 
-        public ICollection<_Machine_Status_Info_Model>? _Machine_Status_Infos { get; set; } = new List<_Machine_Status_Info_Model>();
+        public ICollection<Machine_Status_Info_Model>? _Machine_Status_Infos { get; set; } = new List<Machine_Status_Info_Model>();
     }
 }

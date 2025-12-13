@@ -1,5 +1,5 @@
-﻿using MachineApi.Data;
-using MachineApi.Models;
+﻿using MachineApi.Models;
+using MachineMasterApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

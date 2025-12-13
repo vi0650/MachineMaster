@@ -1,4 +1,4 @@
-﻿using MachineApi.Data;
+﻿using MachineMasterApi.Data;
 using MachineMasterApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

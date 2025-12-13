@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MachineMasterApi.Models
 {
-    public class _Machine_Status_Info_Model
+    public class Machine_Status_Info_Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -26,5 +26,6 @@ namespace MachineMasterApi.Models
         public DateTime? UpdatedDate { get; set; }
         public string? IPAddress { get; set; }
         public string? Location { get; set; }
+        public string? MachineCode { get; set; }
     }
 }
