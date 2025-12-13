@@ -26,7 +26,7 @@ export class CategoryFormComponent implements OnInit {
 
   private buildForm(): FormGroup {
     return this.fb.group({
-      categoryId: ['', Validators.required],
+      categoryId: [''],
       categoryName: ['', Validators.required],
       isActive: [true],
       description: [''],
@@ -84,10 +84,16 @@ export class CategoryFormComponent implements OnInit {
     });
   }
 
-  private fixDate(date: any) {
+  private toLocalDate(date: any) {
     const d = new Date(date);
-    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-    return d.toISOString().split('T')[0];
+    return new Date(
+      d.getFullYear(),
+      d.getMonth(),
+      d.getDate(),
+      d.getHours(),
+      d.getMinutes(),
+      d.getSeconds()
+    );
   }
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private toast: HotToastService, private CategoryService: CategoryService, private router: Router) {
@@ -118,8 +124,8 @@ export class CategoryFormComponent implements OnInit {
       console.log(`dialog result : ${result}`);
       if (result !== 'confirm') return;
       const newCategory = { ...category }
-      newCategory.updatedDate = this.fixDate(category.updatedDate);
-      newCategory.createdDate = this.fixDate(category.createdDate);
+      newCategory.createdDate = this.toLocalDate(category.createdDate);
+      newCategory.updatedDate = this.toLocalDate(category.updatedDate);
       console.log(newCategory)
       if (this.isUpdate) {
         this.updateCategoryData(newCategory);

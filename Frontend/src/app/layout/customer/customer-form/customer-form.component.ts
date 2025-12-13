@@ -7,6 +7,9 @@ import { CITIES } from '../../../core/data/city';
 import { STATES } from '../../../core/data/state';
 import { v4 as uuidv4 } from 'uuid';
 import { HotToastService } from '@ngxpert/hot-toast';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CustomerService } from '../../../core/services/customer.service';
+import { hotToastObserve } from '../../../core/utils/toast-observer';
 
 @Component({
   selector: 'app-customer-form',
@@ -16,16 +19,18 @@ import { HotToastService } from '@ngxpert/hot-toast';
 })
 export class CustomerFormComponent {
 
-
   readonly dialog = inject(MatDialog);
-  customerForm: FormGroup;
-  customers: Customer[] = [];
   cities = CITIES;
   states = STATES;
-  newCustomer = { customerName: '', }
+  customer: Customer[] = [];
+  existingIds: number[] = [];
+  customerForm: FormGroup;
+  customerId!: number;
+  isUpdate = false;
+  newCustomer = { customerName: '' }
 
-  constructor(private fb: FormBuilder, private toast: HotToastService) {
-    this.customerForm = this.fb.group({
+  private buildForm(): FormGroup {
+    return this.fb.group({
       customerId: [''],
       customerName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -33,43 +38,107 @@ export class CustomerFormComponent {
       address: [''],
       city: [''],
       state: [''],
-      gstIn: [''],
+      gstin: [''],
       isActive: [true],
       createdDate: [new Date()],
       updatedDate: [new Date()],
     });
-
   }
 
-  newCustId(existingId: number[]): number {
-    let id: number;
-    do {
-      const uuid = uuidv4();
-      const numeric = uuid.replace(/\D/g, '');
-      let sub = numeric.substring(0, 5);
-      sub = sub.padStart(5, '0');
-      id = Number(sub);
-      if (id < 10000) {
-        id += 10000;
-      }
-    } while (existingId.includes(id))
-    return id;
+  protected generateId() {
+    const newId = this.CustomerService.newCustomerId(this.existingIds);
+    this.customerForm.patchValue({
+      customerId: newId
+    });
   }
 
-  saveForm() {
-    const grahak: Customer = this.customerForm.value as Customer;
+  private createCustomer(customer: Customer) {
+    this.CustomerService.addCustomer(customer).pipe(
+      hotToastObserve(this.toast, {
+        loading: "Just a Second....",
+        success: (res: any) => `${res.customerName} Successfully Saved!`,
+        error: err => {
+          if (err.status === 0) return "Server Sleeping!";
+          if (err.status === 401) return "Invalid Data!";
+          return "Something Crashed!";
+        }
+      }),
+    ).subscribe(() => {
+      this.existingIds.push(customer.customerId);
+      this.customerForm.reset();
+      this.generateId();
+      this.router.navigate(['customer'])
+    })
+  }
+
+  private updateCustomer(customer: Customer) {
+    this.CustomerService.updateCustomer(this.customerId, customer).pipe(
+      hotToastObserve(this.toast, {
+        loading: "Updating data....",
+        success: () => `data Updated successfully`,
+        error: err => {
+          if (err.status === 0) return "Server Sleeping!";
+          if (err.status === 401) return "Invalid Data!";
+          return "Something Crashed!";
+        }
+      }),
+    ).subscribe(() => {
+      this.router.navigate(['customer']);
+    })
+  }
+
+  private loadCustomerData(id: number) {
+    this.CustomerService.getCustomerById(id).subscribe((customer => {
+      this.customerForm.patchValue(customer);
+    }))
+  }
+
+  private fixDate(date: any) {
+    const d = new Date(date);
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split('T')[0];
+  }
+
+  constructor(private CustomerService: CustomerService, private route: ActivatedRoute, private fb: FormBuilder, private toast: HotToastService, private router: Router) {
+    this.customerForm = this.buildForm()
+  }
+
+  ngOnInit(): void {
+    this.customerId = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.customerId) {
+      this.isUpdate = true;
+      this.loadCustomerData(this.customerId)
+    } else {
+      this.generateId();
+    }
+  }
+
+  saveCustomer() {
+    const customer: Customer = this.customerForm.value as Customer;
 
     if (!this.customerForm.valid) {
       this.toast.error('fill the all fields')
       return
     };
+    const dialogRef = this.dialog.open(customerDialog, {
+      width: '400px',
+      data: customer.customerName,
+    });
+    dialogRef.afterClosed().subscribe((result => {
+      if (result !== 'confirm') return;
+      const newCustomer = { ...customer }
+      newCustomer.createdDate = this.fixDate(customer.createdDate);
+      newCustomer.updatedDate = this.fixDate(customer.updatedDate);
+      if (this.isUpdate) {
+        this.updateCustomer(newCustomer);
+      } else {
+        this.createCustomer(newCustomer);
+      }
+    }))
+  }
 
-    if (this.customerForm.valid) {
-      const newCustomer = { ...grahak }
-      console.log(newCustomer);
-      this.toast.success('Successfully saved!!', { dismissible: true, position: 'bottom-center' })
-    }
-    this.customerForm.reset();
+  cancel() {
+    this.router.navigate(['customer']);
   }
 }
 

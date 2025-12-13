@@ -1,59 +1,88 @@
-<mat-card class="page-card mat-elevation-z4">
-    <h2 class="title">Machine Form</h2>
-
-    <form [formGroup]="machineForm" class="form-grid">
-
-        <!-- Customer Name -->
-        <mat-form-field>
-            <mat-label>Machine Name</mat-label>
-            <input matInput formControlName="machineName">
-            <mat-error
-                *ngIf="machineForm.get('machineName')?.hasError('required') && machineForm.get('machineName')?.touched">
-                Enter Machine Name
-            </mat-error>
+<div class="machine-list-container">
+    <div class="top-bar">
+        <mat-form-field appearance="outline">
+            <mat-label>Search Machine</mat-label>
+            <input matInput type="text" (keyup)="applyFilter($event)" placeholder="Search by name, email, id" />
+            <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Product Id</mat-label>
-            <mat-select formControlName="productId">
-                <mat-option [value]="null">None</mat-option>
-                <mat-option class="mat-option" *ngFor="let Id of pId" [value]="Id">{{Id}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Is Active?</mat-label>
-            <mat-select formControlName="isActive">
-                <mat-option [value]="true">Active</mat-option>
-                <mat-option [value]="false">Inactive</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="full-width">
-            <mat-label>Description</mat-label>
-            <textarea matInput rows="2" formControlName="description"></textarea>
-        </mat-form-field>
-
-        <!-- Created Date -->
-        <mat-form-field>
-            <mat-label>Created Date</mat-label>
-            <input matInput [matDatepicker]="cd" formControlName="createdDate">
-            <mat-datepicker-toggle matSuffix [for]="cd"></mat-datepicker-toggle>
-            <mat-datepicker #cd></mat-datepicker>
-        </mat-form-field>
-
-        <!-- Updated Date -->
-        <mat-form-field>
-            <mat-label>Updated Date</mat-label>
-            <input matInput [matDatepicker]="ud" formControlName="updatedDate">
-            <mat-datepicker-toggle matSuffix [for]="ud"></mat-datepicker-toggle>
-            <mat-datepicker #ud></mat-datepicker>
-        </mat-form-field>
-
-    </form>
-
-    <div class="btn-row">
-        <button mat-flat-button color="primary" (click)="saveForm()" [disabled]="machineForm.invalid">Save</button>
+        <button mat-fab extended color="primary" (click)="addMachine()">
+            <mat-icon>add</mat-icon> <b>Add Machine</b>
+        </button>
     </div>
 
-</mat-card>
+    <mat-card>
+        <div class="table-wrapper">
+            <table mat-table [dataSource]="machineDataSource" matSort>
+                <!-- NAME -->
+                <ng-container matColumnDef="machineName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Machine Name
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.machineName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="productId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Product ID</th>
+                    <td mat-cell *matCellDef="let row">{{ row.productId }}</td>
+                </ng-container>
+
+                <!-- ISACTIVE -->
+                <ng-container matColumnDef="isActive">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Active status
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.isActive | booleanText }}
+                    </td>
+                </ng-container>
+
+                <!-- DESCRIPTION -->
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+                    <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+                </ng-container>
+
+                <!-- CREATED DATE -->
+                <ng-container matColumnDef="createdDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Created Date
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.createdDate | date }}</td>
+                </ng-container>
+
+                <!-- UPDATED DATE -->
+                <ng-container matColumnDef="updatedDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Updated Date
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.updatedDate | date }}</td>
+                </ng-container>
+
+                <!-- ACTIONS -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button color="primary" (click)="editMachine(row)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="deleteMachine(row)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- REQUIRED ROW TAGS (MOST IMPORTANT) -->
+                <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+                </tr>
+            </table>
+        </div>
+    </mat-card>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+</div>

@@ -1,1 +1,67 @@
-<p>product-form works!</p>
+<mat-card class="page-card mat-elevation-z4">
+    <h2 class="title">Product Form</h2>
+
+    <form [formGroup]="productForm" class="form-grid">
+
+        <!-- Product Name -->
+        <mat-form-field>
+            <mat-label>Product Name</mat-label>
+            <input matInput placeholder="Enter Product Name" formControlName="productName">
+            <mat-error
+                *ngIf="productForm.get('productName')?.hasError('required') && productForm.get('productName')?.touched">
+                Enter Product Name
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="id-field">
+            <mat-label>Category Id</mat-label>
+            <input placeholder="Enter categoryId" matInput maxlength="5" formControlName="categoryId">
+            <mat-hint># This is auto Generated categoryId please Keep this Id</mat-hint>
+        </mat-form-field>
+
+        <!-- Active -->
+        <mat-form-field>
+            <mat-label>Is Active?</mat-label>
+            <mat-select formControlName="isActive">
+                <mat-option [value]="true">Active</mat-option>
+                <mat-option [value]="false">Inactive</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="id-field">
+            <mat-label>Product Code</mat-label>
+            <input placeholder="Enter Product code" matInput maxlength="5" formControlName="productCode">
+            <mat-hint># enter 5 digit product code</mat-hint>
+        </mat-form-field>
+
+        <!-- Address full width -->
+        <mat-form-field class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea placeholder="abc street, landmark" matInput rows="2" formControlName="description"></textarea>
+        </mat-form-field>
+
+
+        <!-- Created Date -->
+        <mat-form-field>
+            <mat-label>Created Date</mat-label>
+            <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="cd" formControlName="createdDate">
+            <mat-datepicker-toggle matSuffix [for]="cd"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #cd></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Updated Date -->
+        <mat-form-field>
+            <mat-label>Updated Date</mat-label>
+            <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="ud" formControlName="updatedDate">
+            <mat-datepicker-toggle matSuffix [for]="ud"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #ud></mat-datepicker>
+        </mat-form-field>
+
+    </form>
+
+    <div class="btn-row">
+        <button mat-flat-button (click)="saveProduct()">Save</button>
+        <button mat-stroked-button (click)="cancel()">Cancel</button>
+    </div>
+
+</mat-card>

@@ -1,1 +1,122 @@
-<p>machine-status-info works!</p>
+<div class="machine-list-container">
+    <div class="top-bar">
+        <mat-form-field appearance="outline">
+            <mat-label>Search Machine Status</mat-label>
+            <input matInput type="text" (keyup)="applyFilter($event)" placeholder="Search by name, email, id" />
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <button mat-fab extended color="primary" (click)="addMachineStatus()">
+            <mat-icon>add</mat-icon> <b>Add Machine Status</b>
+        </button>
+    </div>
+
+    <mat-card>
+        <div class="table-wrapper">
+            <table mat-table [dataSource]="machineStatusDataSource" matSort>
+               
+                <ng-container matColumnDef="machineId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Machine ID</th>
+                    <td mat-cell *matCellDef="let row">{{ row.machineId }}</td>
+                </ng-container>
+                
+                <ng-container matColumnDef="customerId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer ID</th>
+                    <td mat-cell *matCellDef="let row">{{ row.customerId }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="isOnline">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Online status
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.isOnline | liveText }}
+                    </td>
+                </ng-container>
+
+                <!-- ISACTIVE -->
+                <ng-container matColumnDef="isActive">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Active status
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.isActive | booleanText }}
+                    </td>
+                </ng-container>
+
+                <!-- DESCRIPTION -->
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+                    <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+                </ng-container>
+
+                <!-- CREATED DATE -->
+                <ng-container matColumnDef="createdDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Created Date
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.createdDate | date }}</td>
+                </ng-container>
+
+                <!-- UPDATED DATE -->
+                <ng-container matColumnDef="updatedDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Updated Date
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.updatedDate | date }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="ipAddress">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        IP Address
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.ipAddress }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="location">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Location
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.location }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="machineCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Machine Code
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.machineCode }}
+                    </td>
+                </ng-container>
+
+                <!-- ACTIONS -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button color="primary" (click)="editMachineStatus(row)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="deleteMachineStatus(row)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- REQUIRED ROW TAGS (MOST IMPORTANT) -->
+                <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+                </tr>
+            </table>
+        </div>
+    </mat-card>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+</div>

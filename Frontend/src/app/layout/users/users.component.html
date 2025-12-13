@@ -1,6 +1,6 @@
 <div class="user-list-container">
   <div class="top-bar">
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Search User</mat-label>
       <input matInput type="text" (keyup)="applyFilter($event)" placeholder="Search by name, email, id">
       <mat-icon matSuffix>search</mat-icon>
@@ -83,7 +83,7 @@
         <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
 
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No data</td>
+          <td class="mat-cell" colspan="4">No data found</td>
         </tr>
 
 

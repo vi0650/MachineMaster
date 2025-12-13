@@ -28,7 +28,7 @@
         <!-- Mobile -->
         <mat-form-field>
             <mat-label>Mobile Number</mat-label>
-            <input placeholder="Enter 10-digit mobile number" matInput maxlength="10" formControlName="mobileNo">
+            <input placeholder="Enter 10-digit mobile number" #mobileNo matInput maxlength="10" formControlName="mobileNo">
             <mat-error
                 *ngIf="customerForm.get('mobileNo')?.hasError('required') && customerForm.get('mobileNo')?.touched">
                 Mobile number is <strong>required</strong>
@@ -37,6 +37,7 @@
                 *ngIf="customerForm.get('mobileNo')?.hasError('pattern') && customerForm.get('mobileNo')?.touched">
                 Enter valid 10-digit mobile number
             </mat-error>
+            <mat-hint align="end">{{mobileNo.value.length}} / 10</mat-hint>
         </mat-form-field>
 
         <!-- City -->
@@ -66,7 +67,8 @@
         <!-- GSTIN -->
         <mat-form-field>
             <mat-label>GSTIN</mat-label>
-            <input placeholder="Enter 15-digit GSTIN" matInput formControlName="gstIn">
+            <input placeholder="Enter 15-digit GSTIN" #gstIn matInput maxlength="15" formControlName="gstin">
+            <mat-hint align="end">{{gstIn.value.length}} / 15</mat-hint>
         </mat-form-field>
 
         <!-- Active -->
@@ -97,7 +99,8 @@
     </form>
 
     <div class="btn-row">
-        <button mat-flat-button  (click)="saveForm()" [disabled]="customerForm.invalid">Save</button>
+        <button mat-flat-button  (click)="saveCustomer()">Save</button>
+        <button mat-stroked-button (click)="cancel()">Cancel</button>
     </div>
 
 </mat-card>

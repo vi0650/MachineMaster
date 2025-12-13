@@ -1,46 +1,54 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject, signal, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { LoginService } from '../core/services/login.service';
+import { UserService } from '../core/services/user.service';
+import { User } from '../core/models/user';
 
 @Component({
   selector: 'app-layout',
   standalone: false,
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.scss'
+  styleUrls: ['./layout.component.scss'],
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnDestroy {
 
-  constructor(private router: Router, private dialog: MatDialog,private loginData: LoginService) {
-    console.log('layout module load');
+  private media = inject(MediaMatcher);
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
+  private loginData = inject(UserService);
 
-    const media = inject(MediaMatcher);
-    this._mobileQuery = media.matchMedia('(max-width: 600px)');
-    this.isMobile.set(this._mobileQuery.matches);
-    this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);
-    this._mobileQuery.addEventListener('change', this._mobileQueryListener);
-  }
-  protected readonly isMobile = signal(true);
-  private readonly _mobileQuery: MediaQueryList;
-  private readonly _mobileQueryListener: () => void;
+  isMobile = signal(false);
+  userName:string="";
+
+  private mobileQuery: MediaQueryList = this.media.matchMedia('(max-width: 600px)');
+  private mobileListener = () => this.isMobile.set(this.mobileQuery.matches);
 
   @ViewChild('snav') snav: any;
-  closeSidebar() { if (this.isMobile()) { this.snav.close();}}
 
-  ngOnDestroy(): void {
-    this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
+  constructor() {
+    console.log('Layout module loaded');
+    this.isMobile.set(this.mobileQuery.matches);
+    this.mobileQuery.addEventListener('change', this.mobileListener);
+
+    const userdata = localStorage.getItem("loggedUser");
+    this.userName = (((userdata ? JSON.parse(userdata) : null).role));
   }
 
-  isSidebarOpen = true;
+  ngOnDestroy(): void {
+    this.mobileQuery.removeEventListener('change', this.mobileListener);
+  }
+
+  closeSidebar() {
+    if (this.isMobile() && this.snav) {
+      this.snav.close();
+    }
+  }
 
   logout() {
     localStorage.removeItem('loggedUser');
     this.router.navigate(['/login'], { replaceUrl: true });
   }
 
-  username(){
-    
-  }
 
 }

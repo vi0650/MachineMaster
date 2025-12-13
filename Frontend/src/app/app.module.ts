@@ -3,7 +3,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from './layout/layout.module';
-import { NgUIModule } from './shared/ng-ui.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,7 +17,6 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     AppRoutingModule,
     LayoutModule,
-    NgUIModule,
   ],
   bootstrap: [AppComponent],
   providers: [

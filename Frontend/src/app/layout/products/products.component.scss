@@ -1,0 +1,39 @@
+.category-list-container {
+  padding: 1rem;
+  background: transparent;
+  // border: 1px solid darkgray;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+mat-card {
+  // border: 1px solid grey;
+  border-radius: 7px;
+}
+
+table {
+  width: 100%;
+}
+
+.table-wrapper {
+  overflow-y: auto;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: transparent;
+  width: 100%;
+  max-height: 600px;
+}
+
+.mat-mdc-header-row {
+  position: sticky;
+  top: 0;
+  background: wheat;
+  z-index: 10;
+}

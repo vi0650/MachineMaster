@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Inject, OnInit } from '@angular/core';
 import { NgUIModule } from '../../../shared/ng-ui.module';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Product } from '../../../core/models/product';
@@ -14,7 +14,7 @@ import { hotToastObserve } from '../../../core/utils/toast-observer';
   templateUrl: './product-form.component.html',
   styleUrl: './product-form.component.scss'
 })
-export class ProductFormComponent {
+export class ProductFormComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
   products: Product[] = [];
@@ -96,7 +96,43 @@ export class ProductFormComponent {
   }
 
   ngOnInit(): void {
-    
+    this.productId = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.productId) {
+      this.isUpdate = true;
+      this.loadProductData(this.productId)
+    } else {
+      this.generateId()
+    }
+  }
+
+  saveProduct() {
+    const product: Product = this.productForm.value as Product;
+    if (this.productForm.invalid) {
+      this.toast.error('Form is Empty')
+      return
+    };
+    const dialogRef = this.dialog.open(productDialog, {
+      width: '400px',
+      data: product.productName,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`dialog result : ${result}`);
+      if (result !== 'confirm') return;
+      const newProduct = { ...product }
+      newProduct.updatedDate = this.fixDate(product.updatedDate);
+      newProduct.createdDate = this.fixDate(product.createdDate);
+      console.log(newProduct)
+      if (this.isUpdate) {
+        this.updateProductData(newProduct);
+      } else {
+        this.createProduct(newProduct)
+      }
+    }
+    )
+  }
+
+  cancel() {
+    this.router.navigate(['products']);
   }
 }
 

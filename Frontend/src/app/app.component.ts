@@ -6,4 +6,9 @@ import { Component } from '@angular/core';
   standalone: false,
   styleUrl: './app.component.scss'
 })
-export class AppComponent { }
+export class AppComponent {
+
+  constructor(){
+    console.log("app module running");
+  }
+ }

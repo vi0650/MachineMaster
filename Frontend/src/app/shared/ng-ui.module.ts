@@ -24,9 +24,10 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortHeader, MatSortModule } from '@angular/material/sort';
+import { BooleanTextPipe,LiveTextPipe } from '../core/pipes/boolean-text.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [BooleanTextPipe,LiveTextPipe],
   imports: [
     CommonModule,
     RouterOutlet,
@@ -120,8 +121,10 @@ import { MatSort, MatSortHeader, MatSortModule } from '@angular/material/sort';
     MatTableModule,
     MatSort,
     MatSortHeader,
+    BooleanTextPipe,
+    LiveTextPipe
   ],
-  providers:[provideNativeDateAdapter()]
+  providers: [provideNativeDateAdapter()]
 })
 
 export class NgUIModule { }

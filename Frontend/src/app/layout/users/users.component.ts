@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { Router } from '@angular/router';
 import { hotToastObserve } from '../../core/utils/toast-observer';
-import { USER_COL } from '../../core/data/tabledata/userColumns';
+import { USER_COL } from '../../core/data/tabledata/userColumns';;
 
 @Component({
   selector: 'app-users',
@@ -57,7 +57,7 @@ export class UsersComponent {
   }
 
   editUser(row: User) {
-    this.router.navigate(['/users-form', row.userId]);
+    this.router.navigate(['/users/users-form', row.userId]);
   }
 
   deleteUser(row: User) {
@@ -75,6 +75,6 @@ export class UsersComponent {
   }
 
   addUser() {
-    this.router.navigate(['/users-form']);
+    this.router.navigate(['users/users-form']);
   }
 }

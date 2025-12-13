@@ -21,8 +21,7 @@ export class CategoryService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  addCategory(data:any){
-    console.log(data);
+  addCategory(data:any){  
     return this.http.post(this.baseUrl,data);
   }
 

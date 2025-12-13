@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { NgUIModule } from '../../shared/ng-ui.module';
+import { Component, inject, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Machine } from '../../core/models/machine';
-import { pId } from '../../core/data/productId';
-import { v4 as uuidv4 } from 'uuid';
 import { HotToastService } from '@ngxpert/hot-toast';
+import { Router } from '@angular/router';
+import { hotToastObserve } from '../../core/utils/toast-observer';
+import { MachineService } from '../../core/services/machine.service';
+import { Machine } from '../../core/models/machine';
+import { MACHINE_COL } from '../../core/data/tabledata/machineColumns';
 
 @Component({
   selector: 'app-machine',
@@ -15,57 +18,62 @@ import { HotToastService } from '@ngxpert/hot-toast';
 })
 export class MachineComponent {
 
-  machineForm: FormGroup;
+  readonly dialog = inject(MatDialog);
+  private machineService = inject(MachineService);
+  private toast = inject(HotToastService);
+  private router = inject(Router);
 
-  constructor(private fb: FormBuilder, private toast: HotToastService) {
-    this.machineForm = this.fb.group({
-      machineName: ['', Validators.required],
-      productId: ['', [Validators.required, Validators.pattern("^[0-9]{6}$")]],
-      description: [''],
-      isActive: [true],
-      createdDate: [new Date()],
-      updatedDate: [new Date()],
+  machineDataSource = new MatTableDataSource<Machine>();
+  displayColumns = MACHINE_COL
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  ngOnInit(): void {
+    this.loadMachine();
+  }
+
+  ngAfterViewInit(): void {
+    this.machineDataSource.paginator = this.paginator;
+    this.machineDataSource.sort = this.sort;
+
+    // faster filtering
+    this.machineDataSource.filterPredicate = (data, filter) =>
+      data.machineId.toString().includes(filter) ||
+      data.productId.toString().includes(filter);
+  }
+
+  loadMachine() {
+    this.machineService.getAllMachine().subscribe(machine => {
+      // direct data update - no datasource recreation
+      this.machineDataSource.data = machine;
     });
   }
 
-  machine: Machine[] = [];
-  pId = pId;
-  newCustomer = { machineName: '', }
-
-  readonly dialog = inject(MatDialog);
-
-  generatedMachId(existingId: number[]): number {
-    let id: number;
-    do {
-      const uuid = uuidv4();
-      const numeric = uuid.replace(/\D/g, '');
-      id = Number(numeric.substring(0, 5) || Math.floor(1000 + Math.random() * 9000));
-    } while (existingId.includes(id))
-    return id;
+  applyFilter(event: any) {
+    const value = event.target.value.trim().toLowerCase();
+    this.machineDataSource.filter = value;
   }
 
-  saveForm() {
-    const machine: Machine = this.machineForm.value as Machine;
-
-    if (!this.machineForm.valid) {
-      this.toast.error('fill the all fields',{dismissible:true})
-      return
-    };
-
-    if (this.machineForm.valid) {
-      const newMachine = { ...machine }
-      console.log(newMachine);
-      this.toast.success('Successfully saved!!',{dismissible:true,position:'bottom-center'})
-    }
-    this.machineForm.reset();
+  editMachine(row: Machine) {
+    this.router.navigate(['machine-form', row.machineId]);
   }
 
-  // openDialog() {
-  //   const dialogRef = this.dialog.open(customerDialog);
+  deleteMachine(row: Machine) {
+    this.machineService.deleteMachine(row.machineId).pipe(
+      hotToastObserve(this.toast, {
+        loading: "Machine deleting...",
+        success: () => `${row.machineName} Deleted!`,
+        error: (err) => {
+          if (err.status === 0) return "server offline!";
+          if (err.status === 401) return "api misunderstood";
+          return "Something Crashed! 😱";
+        }
+      }),
+    ).subscribe(() => this.loadMachine());
+  }
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log(`dialog result : ${result}`);
-  //   })
-  // }
-
+  addMachine() {
+    this.router.navigate(['machine-form']);
+  }
 }

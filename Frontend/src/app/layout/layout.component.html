@@ -4,7 +4,7 @@
         <button mat-icon-button (click)="snav.toggle()">
             <mat-icon>menu</mat-icon>
         </button>
-        <span class="title">Dashboard</span>
+        <span class="title">{{userName | lowercase}}</span>
         <span class="spacer"></span>
         <!-- User Menu -->
         <button mat-icon-button [matMenuTriggerFor]="userMenu">
@@ -25,15 +25,14 @@
     <!-- SIDENAV + CONTENT -->
     <mat-sidenav-container class="sidenav-container mat-elevation-z18" [style.marginTop.px]="isMobile() ? 0 : 0">
         <!-- SIDEBAR -->
-        <mat-sidenav #snav class="sidebar mat-elevation-z2" [class.collapsed]="!isMobile() && isSidebarOpen"
+        <mat-sidenav #snav class="sidebar mat-elevation-z2" [class.collapsed]="!isMobile() && closeSidebar"
             [mode]="isMobile() ? 'over' : 'side'" [opened]="!isMobile()" [fixedInViewport]="isMobile()"
             fixedTopGap="56">
-            <div class="sidebar-header">
-                <!-- <img src="assets/user.png" class="avatar"> -->
-                <h3>Test</h3>
-                <p>Admin</p>
+            <!-- <div class="sidebar-header">
+                <img src="assets/user.png" class="avatar">
+                <h3>{{userName}}</h3>
             </div>
-            <mat-divider></mat-divider>
+            <mat-divider></mat-divider> -->
 
             <!--/ 1 -->
             <!-- EXPANSION MENU -->
@@ -101,7 +100,7 @@
                     </mat-expansion-panel-header>
                     <a mat-list-item (click)="closeSidebar()" routerLink="/products"
                         routerLinkActive="active-link">Products</a>
-                    <a mat-list-item (click)="closeSidebar()" routerLink="/products-form"
+                    <a mat-list-item (click)="closeSidebar()" routerLink="/products/products-form"
                         routerLinkActive="active-link">Add Product</a>
                 </mat-expansion-panel>
 
@@ -128,7 +127,7 @@
                     <mat-list role="list">
                         <a mat-list-item (click)="closeSidebar()" routerLink="/users"
                             routerLinkActive="active-link">Users</a>
-                        <a mat-list-item (click)="closeSidebar()" routerLink="/users-form"
+                        <a mat-list-item (click)="closeSidebar()" routerLink="/users/users-form"
                             routerLinkActive="active-link">Add User</a>
                     </mat-list>
                 </mat-expansion-panel>

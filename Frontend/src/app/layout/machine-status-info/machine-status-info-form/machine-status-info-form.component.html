@@ -1,1 +1,87 @@
-<p>machine-status-info-form works!</p>
+<mat-card class="page-card mat-elevation-z4">
+    <h2 class="title">Machine Status info Form</h2>
+
+    <form [formGroup]="machine_statusForm" class="form-grid">
+
+        <!-- <mat-form-field>
+            <mat-label> Id</mat-label>
+            <input placeholder="Enter Machine id" type="text" matInput formControlName="id">
+        </mat-form-field> -->
+
+        <mat-form-field>
+            <mat-label>Machine Id</mat-label>
+            <input placeholder="Enter Machine id" type="text" #machineId matInput maxlength="5"
+                formControlName="machineId">
+            <mat-error *ngIf="machine_statusForm.get('machineId')?.hasError('pattern')">
+                Only numbers allowed.
+            </mat-error>
+            <mat-hint align="end">{{machineId.value.length}} / 5</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Customer Id</mat-label>
+            <input placeholder="Enter Customer id" #customerId matInput maxlength="5" formControlName="customerId">
+            <mat-hint align="end">{{customerId.value.length}} / 5</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Is Online?</mat-label>
+            <mat-select formControlName="isOnline">
+                <mat-option [value]="true">Online</mat-option>
+                <mat-option [value]="false">Offline</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Is Active?</mat-label>
+            <mat-select formControlName="isActive">
+                <mat-option [value]="true">Active</mat-option>
+                <mat-option [value]="false">Inactive</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="2" formControlName="description"></textarea>
+        </mat-form-field>
+
+        <!-- Created Date -->
+        <mat-form-field>
+            <mat-label>Created Date</mat-label>
+            <input matInput [matDatepicker]="cd" formControlName="createdDate">
+            <mat-datepicker-toggle matSuffix [for]="cd"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #cd></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Updated Date -->
+        <mat-form-field>
+            <mat-label>Updated Date</mat-label>
+            <input matInput [matDatepicker]="ud" formControlName="updatedDate">
+            <mat-datepicker-toggle matSuffix [for]="ud"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #ud></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>IP Address</mat-label>
+            <input placeholder="Enter IP Address" #ipAddress matInput maxlength="14" formControlName="ipAddress">
+            <mat-hint align="end">{{ipAddress.value.length}} / 14</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Location</mat-label>
+            <input placeholder="Enter Location" matInput formControlName="location">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Machine code</mat-label>
+            <input placeholder="Enter Machine code" #machineCode matInput maxlength="5" formControlName="machineCode">
+            <mat-hint align="end">{{machineCode.value.length}} / 5</mat-hint>
+        </mat-form-field>
+    </form>
+
+    <div class="btn-row">
+        <button mat-flat-button color="primary" (click)="saveMachine_status()">Save</button>
+        <button mat-stroked-button (click)="cancel()">Cancel</button>
+    </div>
+
+</mat-card>

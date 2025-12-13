@@ -1,4 +1,4 @@
-.user-list-container {
+.category-list-container {
   padding: 1rem;
   background: transparent;
   // border: 1px solid darkgray;
@@ -10,15 +10,16 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 0.4rem;
+  margin-bottom: 1.4rem;
 }
 
-mat-card {
+
+mat-card{
   // border: 1px solid grey;
   border-radius: 7px;
 }
 
-table {
+table{
   width: 100%;
 }
 
@@ -37,31 +38,3 @@ table {
   background: wheat;
   z-index: 10;
 }
-
-.page-card {
-  max-width: 900px;
-  margin: auto;
-  padding: 5px 10px;
-}
-
-.title {
-  margin-bottom: 20px;
-  font-weight: 700;
-}
-
-/* Responsive Grid */
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-/* Full width field (address) */
-.full-width {
-  grid-column: 1 / -1;
-}
-
-// mat-form-field {
-//   width: 100%;
-//   min-width: 200px;
-// }
